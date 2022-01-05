@@ -1,3 +1,4 @@
+
 // Agent participant in project mas_auction
 
 /* Initial beliefs and rules */
@@ -34,3 +35,4 @@ seller(false).
 
 // uncomment the include below to have an agent compliant with its organisation
 //{ include("$moiseJar/asl/org-obedient.asl") }
+

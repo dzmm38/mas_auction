@@ -1,3 +1,4 @@
+
 // Agent sample_agent in project mas_auction
 
 
@@ -44,3 +45,4 @@ running_auction(false).
 
 // uncomment the include below to have an agent compliant with its organisation
 //{ include("$moiseJar/asl/org-obedient.asl") }
+

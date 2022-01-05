@@ -26,9 +26,6 @@ mas mas_auction {
     agent max : participant.asl{
     	
     }
-    
-
-    
-
+   
 }
 
