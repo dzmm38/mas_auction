@@ -14,7 +14,16 @@
 
 mas mas_auction {
 
-    agent sample_agent
+    agent auctioneer : auctioneer.asl{
+    	
+    }
+    agent bob : participant.asl{
+    	
+    }
+    agent test : participant.asl{
+    	
+    }
+    
 
     
 

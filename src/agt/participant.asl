@@ -1,14 +1,25 @@
-// Agent sample_agent in project mas_auction
+// Agent participant in project mas_auction
 
 /* Initial beliefs and rules */
 
 /* Initial goals */
 
-!start.
+!request_auction.
 
 /* Plans */
 
-+!start : true <- .print("hello world.").
++!request_auction <- .send(auctioneer,tell,request("Brot","SealedBid")).
+
++running_auction(true) : true <- .print("OK").
+
++auction(Item,Type) : true <- !bid(10).
+
+
++!bid(X) <- .send(auctioneer,tell,bid(X)).
+
+
+
+
 
 { include("$jacamoJar/templates/common-cartago.asl") }
 { include("$jacamoJar/templates/common-moise.asl") }
