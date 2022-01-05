@@ -20,7 +20,10 @@ mas mas_auction {
     agent bob : participant.asl{
     	
     }
-    agent test : participant.asl{
+    agent alice : participant.asl{
+    	
+    }
+    agent max : participant.asl{
     	
     }
     
