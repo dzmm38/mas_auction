@@ -17,6 +17,7 @@ running_auction(false).
 															+running_auction(true)
 															.print("gibt noch nix")
 															.print(Ag)
+															.send(Ag,tell,auction_accepted(true))
 															!announce(Item,Type)
 															.
 												
@@ -31,7 +32,7 @@ running_auction(false).
 						 .print(Type)
 						 .	
 						 
-+!processBid(Value,Ag) : auction(_,"SealedBid") <- .print("Type: SealedBid").
++!processBid(Value,Ag) : auction(_,"SealedBid") <- .print("Type: SealedBid", Value, Ag).
 +!processBid(Value,Ag) : auction(_,"English") <- .print("Type: English").
 +!processBid(Value,Ag) : auction(_,"Vikery") <- .print("Type: Vikery").
 +!processBid(Value,Ag) <- .print("Nicht implementierte Auktion"). 													

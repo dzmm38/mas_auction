@@ -2,17 +2,25 @@
 
 /* Initial beliefs and rules */
 
+seller(false).
+
 /* Initial goals */
 
 !request_auction.
 
 /* Plans */
 
-+!request_auction <- .send(auctioneer,tell,request("Brot","SealedBid")).
++!request_auction <- 	.send(auctioneer,tell,request("Brot","SealedBid"))
+						.
+					 
 
-+running_auction(true) : true <- .print("OK").
++auction_accepted(true) : true <- 	-seller(false);
+									+seller(true)
+									.print("Ich bin Verkäufer").
 
-+auction(Item,Type) : true <- !bid(10).
++running_auction(true) : true <- 	.print("OK").
+
++auction(Item,Type) : seller(false) <- !bid(10).
 
 
 +!bid(X) <- .send(auctioneer,tell,bid(X)).
