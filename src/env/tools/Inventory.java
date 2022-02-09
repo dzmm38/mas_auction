@@ -1,7 +1,7 @@
 package tools;
 
 import java.util.HashMap;
-
+import java.util.Random;
 import cartago.*;
 
 public class Inventory extends Artifact {
