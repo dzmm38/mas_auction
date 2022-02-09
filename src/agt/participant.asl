@@ -7,9 +7,13 @@ seller(false).
 
 /* Initial goals */
 
+!setup_inventory.
 !request_auction.
 
+
 /* Plans */
+
++!setup_inventory : true <-	makeArtifact("myInventory", "tools.Inventory", [], ID).
 
 +!request_auction <- 	.send(auctioneer,tell,request("Brot","SealedBid"))
 						.
