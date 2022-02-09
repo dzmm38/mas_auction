@@ -4,18 +4,38 @@
 /* Initial beliefs and rules */
 
 seller(false).
+wurst(2).
+brot(2).
+kaese(2).
+bier(2).
+
+is_more_than(R)
+	:- brot(C) & (R - C) > 0.
+	
+	
 
 /* Initial goals */
 
 !setup_inventory.
-!request_auction.
+!sell_item.
+
 
 
 /* Plans */
 
-+!setup_inventory : true <-	makeArtifact("myInventory", "tools.Inventory", [], ID).
++!setup_inventory : true <-	.my_name(Me)
+								makeArtifact(Me, "tools.Inventory", [], ID)													
+								.
+//WIP
++!sell_item <- 	!find_item(Item)
+				!request_auction(Item)
+				.
+//WIP
++!find_item <- cntItem("Brot",R)
+				is_more_than(R)
+.
 
-+!request_auction <- 	.send(auctioneer,tell,request("Brot","SealedBid"))
++!request_auction(Item) <- 	.send(auctioneer,tell,request(Item,"SealedBid"))
 						.
 					 
 
