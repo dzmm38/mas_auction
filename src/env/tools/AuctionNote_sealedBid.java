@@ -5,8 +5,8 @@ import cartago.*;
 public class AuctionNote_sealedBid extends Artifact {
 	
 	void init() {
-		defineObsProperty("highestBid",0.0f);
-		defineObsProperty("highestBidder","");
+		defineObsProperty("winner","");
+		defineObsProperty("winningBid",0.0f);
 		
 		//float currentHighestBid = 0;
 		//String currentHighestBidder;
@@ -14,10 +14,10 @@ public class AuctionNote_sealedBid extends Artifact {
 	}
 
 	@OPERATION void receiveBid(String bidder,float bid) {
-		float currentHighestBid = getObsProperty("highestBid").floatValue();
+		float currentHighestBid = getObsProperty("winningBid").floatValue();
 		if(bid>currentHighestBid) {
-			getObsProperty("highestBid").updateValue(bid);
-			getObsProperty("highestBidder").updateValue(bidder);
+			getObsProperty("winningBid").updateValue(bid);
+			getObsProperty("winner").updateValue(bidder);
 			
 			System.out.println("Gebot von "+ bidder + " ist das höchste");
 		
@@ -27,8 +27,12 @@ public class AuctionNote_sealedBid extends Artifact {
 	}
 	
 	@OPERATION void clearNote() {
-		getObsProperty("highestBid").updateValue(0.0f);
-		getObsProperty("highestBidder").updateValue("");
+		getObsProperty("winningBid").updateValue(0.0f);
+		getObsProperty("winner").updateValue("");
+	}
+	
+	@GUARD String getWinner(){
+		return getObsProperty("winner").stringValue();
 	}
 }
 

@@ -15,7 +15,7 @@
 mas mas_auction {
 
     agent auctioneer : auctioneer.asl{
-    	focus : auctionTable.urn_sb
+    	join : auctionTable
     }
     agent bob : participant.asl{
     	
@@ -26,9 +26,11 @@ mas mas_auction {
     agent max : participant.asl{
     	
     }
+    agent klaus : participant.asl{
+    	
+    }
     workspace auctionTable {
-    	artifact urn_sb : tools.AuctionNote_sealedBid
-    	artifact urn_vik : tools.AuctionNote_vikery
+    	
     }
    
 }

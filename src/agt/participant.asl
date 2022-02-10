@@ -7,9 +7,12 @@ seller(false).
 
 /* Initial goals */
 
+!sayHello.
 !request_auction.
 
 /* Plans */
+
++!sayHello <- .send(auctioneer, tell, hi).
 
 +!request_auction <- 	.send(auctioneer,tell,request("Brot","SealedBid"))
 						.
