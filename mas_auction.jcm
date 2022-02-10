@@ -15,7 +15,7 @@
 mas mas_auction {
 
     agent auctioneer : auctioneer.asl{
-    	
+    	join : auctionTable
     }
     agent bob : participant.asl{
     	
@@ -24,6 +24,12 @@ mas mas_auction {
     	
     }
     agent max : participant.asl{
+    	
+    }
+    agent klaus : participant.asl{
+    	
+    }
+    workspace auctionTable {
     	
     }
    

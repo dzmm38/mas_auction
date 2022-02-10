@@ -16,27 +16,37 @@ is_more_than(R)
 
 /* Initial goals */
 
+!sayHello.
 !setup_inventory.
-!sell_item.
+!request_auction.
+/*!sell_item.*/
 
 
 
 /* Plans */
 
++!sayHello <- .send(auctioneer, tell, hi).
+
 +!setup_inventory : true <-	.my_name(Me)
 								makeArtifact(Me, "tools.Inventory", [], ID)													
 								.
 //WIP
+/*
 +!sell_item <- 	!find_item(Item)
 				!request_auction(Item)
 				.
+*/
+
 //WIP
+/*
 +!find_item <- cntItem("Brot",R)
 				is_more_than(R)
 .
+*/
 
-+!request_auction(Item) <- 	.send(auctioneer,tell,request(Item,"SealedBid"))
-						.
+//+!request_auction(Item) <- 	.send(auctioneer,tell,request(Item,"SealedBid"))
+
++!request_auction <- 	.send(auctioneer,tell,request("Brot","SealedBid")).
 					 
 
 +auction_accepted(true) : true <- 	-seller(false);
