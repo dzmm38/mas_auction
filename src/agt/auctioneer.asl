@@ -7,7 +7,8 @@ running_auction(false). //kann nur eine Auktion gleichzeitig geben
 
 /* Initial goals */
 
-+request(Item,Type)[source(Ag)] : true <- !check_auction(Item,Type,Ag).
++request(Item,Type)[source(Ag)] : true <- 	!check_auction(Item,Type,Ag);
+											-request(Item,Type)[source(Ag)].
 +bid(Value)[source(Ag)] : true <- !processBid(Value,Ag).
 
 +isDone(true) <- !closeAuction.
@@ -17,29 +18,30 @@ running_auction(false). //kann nur eine Auktion gleichzeitig geben
 /* Checks if an Auction is already running */
 +!check_auction(Item,Type,Ag) : running_auction(false) <-	-running_auction(false);
 															+running_auction(true)
-															.print("gibt noch nix")
-															.print(Ag)
+															//.print("gibt noch nix")
+															//.print(Ag)
 															.send(Ag,tell,auction_accepted(true))
 															!announce(Item,Type)
 															.
 																										
-+!check_auction(Item,Type,Ag) : running_auction(true) <- 	.print("Gibt schon was!")
-															.print(Ag)
-															.send(Ag,tell,running_auction(true)).
+-!check_auction(Item,Type,Ag) <- 	//.print("Gibt schon was!")
+									//.print(Ag)
+									.send(Ag,tell,running_auction(true)).
 															
+/*															
 -!check_auction(Item,Type,Ag) : running_auction(false) <- 	.wait(30);
 															!check_auction(Item,Type,Ag).
 															
 -!check_auction(Item,Type,Ag) : running_auction(true) <- 	.wait(30);
-														 	!check_auction(Item,Type,Ag).															
+														 	!check_auction(Item,Type,Ag).														 
+*/													
 															
 @auction_announce															
 +!announce(Item,Type) <- +auction(Item,Type)
 						 !createArtifacts
 						 .broadcast(tell,auction(Item,Type)) //weiß der auktionator an wen er die nachricht geschickt hat
-						 .print("auction with")
-						 .print(Item)
-						 .print(Type).	
+						 .print("auction with ", Item, " (",Type,")")
+						 .	
 
 @creteArtifacts					 
 +!createArtifacts : auction(_,"SealedBid") <- 	.count(hi[_],Participants)
@@ -58,23 +60,60 @@ running_auction(false). //kann nur eine Auktion gleichzeitig geben
 											   /* Hier muss noch ein Countdown Artifact erstellt werden */					 
 		
 @processBids						 
-+!processBid(Value,Ag) : auction(_,"SealedBid") <- .print("Type: SealedBid", Value, Ag)
-													receiveBid(Ag,Value)
++!processBid(Value,Ag) : auction(_,"SealedBid") <- .print("Type: SealedBid ", "(",Value, " Gebot von: ", Ag,")")
+													receiveBid(Ag,Value);
+													-bid(Value)[source(Ag)]
 													inc.
 													
-+!processBid(Value,Ag) : auction(_,"Vikery") 	<- .print("Type: Vikery")
-													receiveBid(Ag,Value)
++!processBid(Value,Ag) : auction(_,"Vikery") 	<- .print("Type: Vikery ", "(",Value, " Gebot von: ", Ag,")")
+													receiveBid(Ag,Value);
+													-bid(Value)[source(Ag)]
 													inc.
 
-+!processBid(Value,Ag) : auction(_,"English") 	<- .print("Type: English")
-												 	recieveBid(Ag,Value).
++!processBid(Value,Ag) : auction(_,"English") 	<- .print("Type: English ", "(",Value, " Gebot von: ", Ag,")")
+												 	recieveBid(Ag,Value);
+												 	-bid(Value)[source(Ag)].
 												 
 +!processBid(Value,Ag) 							<- .print("Nicht implementierte Auktion").
 
 @closeAuction
-+!closeAuction : winningBid(WinValue) & winner(WinAg) <- .print(WinValue) 
-														 .print(WinAg)
-														 .broadcast(tell,result(WinAg,WinValue)).
++!closeAuction : winningBid(WinValue) & winner(WinAg) & auction(Item,_) <- 	.print("Gewinner ist: ",WinAg, "mit Gebot von: ", WinValue) 
+														 					.broadcast(tell,result(WinAg,WinValue,Item))
+														 					!destroyArtifacts
+														 					!removeBeliefs
+														 					.print("---------------------------------------------")
+														 					.print("Auktion beendet, neue kann angefordert werden")
+														 					.print("---------------------------------------------")
+														 					.
+
++!removeBeliefs : auction(Item,Type) <- 	.broadcast(untell,auction_accepted(true))
+											.broadcast(untell,auction(Item,Type));
+											-running_auction(true);
+											+running_auction(false);
+											-auction(Item,Type)
+											.broadcast(untell,running_auction(true))
+											.
+														 
+@destroyArtifacts														 
++!destroyArtifacts : auction(_,"SealedBid") <- 	lookupArtifactByType("tools.Counter",C_Id);
+					  							stopFocus(C_Id);
+					  							disposeArtifact(C_Id);
+					  							lookupArtifactByType("tools.AuctionNote_sealedBid",Sb_Id);
+					  							stopFocus(Sb_Id);
+					  							disposeArtifact(Sb_Id)
+					  							.
+					  							
++!destroyArtifacts : auction(_,"Vikery") <- 	lookupArtifactByType("tools.Counter",C_Id);
+					  							stopFocus(C_Id);
+					  							disposeArtifact(C_Id);
+					  							lookupArtifactByType("tools.AuctionNote_vikery",Vik_Id);
+					  							stopFocus(Vik_Id);
+					  							disposeArtifact(Vik_Id).
+					  							
++!destroyArtifacts : auction(_,"English") <-	lookupArtifactByType("tools.AuctionNote_english",En_Id);
+					  							stopFocus(En_Id); 
+					  							disposeArtifact(En_Id).
+					  														
 															
 
 { include("$jacamoJar/templates/common-cartago.asl") }
