@@ -18,7 +18,7 @@ is_more_than(R)
 
 !sayHello.
 !setup_inventory.
-!request_auction.
+!request_auction("Brot","SealedBid").
 /*!sell_item.*/
 
 
@@ -46,16 +46,23 @@ is_more_than(R)
 
 //+!request_auction(Item) <- 	.send(auctioneer,tell,request(Item,"SealedBid"))
 
-+!request_auction <- 	.send(auctioneer,tell,request("Brot","SealedBid")).
++!request_auction(Item,Type) <-		.wait(math.random*10)
+									.send(auctioneer,tell,request(Item,Type)).
 					 
 
 +auction_accepted(true) : true <- 	-seller(false);
 									+seller(true)
 									.print("Ich bin Verkäufer").
+									
+-auction_accepted(true) : true <- 	-seller(true);
+									+seller(false)
+									.print("Ich bin nicht mehr Verkäufer").
 
 +running_auction(true) : true <- 	.print("OK").
 
 +auction(Item,Type) : seller(false) <- !bid(10).
+
+-auction(Item,Type) <- !request_auction("Bier","Vikery").
 
 
 +!bid(X) <- .send(auctioneer,tell,bid(X)).
