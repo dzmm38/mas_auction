@@ -12,7 +12,7 @@ public class AuctionNote_vikery extends Artifact {
 		highestBidder = "";
 		
 		defineObsProperty("winningBid",0.0f);
-		defineObsProperty("Winner","");
+		defineObsProperty("winner","");
 		
 		//float currentHighestBid = 0;
 		//String currentHighestBidder;
@@ -30,19 +30,19 @@ public class AuctionNote_vikery extends Artifact {
 		
 		if(bid>highestBid) {
 			getObsProperty("winningBid").updateValue(highestBid);
-			getObsProperty("Winner").updateValue(highestBidder);
+			getObsProperty("winner").updateValue(highestBidder);
 			
 			highestBid = bid;
 			highestBidder = bidder;
 			
-			System.out.println("Gebot von "+ bidder + " ist das höchste");
+			//System.out.println("Gebot von "+ bidder + " ist das höchste");
 		
 		}else if(bid>secondhighestBid) {
 			getObsProperty("winningBid").updateValue(bid);
-			getObsProperty("Winner").updateValue(bidder);
+			getObsProperty("winner").updateValue(bidder);
 			
 		}else {
-			System.out.println("Gebot von "+ bidder + " nicht höher als vorhandenes");
+			//System.out.println("Gebot von "+ bidder + " nicht höher als vorhandenes");
 		}
 	}
 	

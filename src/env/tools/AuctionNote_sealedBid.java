@@ -19,10 +19,10 @@ public class AuctionNote_sealedBid extends Artifact {
 			getObsProperty("winningBid").updateValue(bid);
 			getObsProperty("winner").updateValue(bidder);
 			
-			System.out.println("Gebot von "+ bidder + " ist das höchste");
+			//System.out.println("Gebot von "+ bidder + " ist das höchste");
 		
 		}else {
-			System.out.println("Gebot von "+ bidder + " nicht höher als vorhandenes");
+			//System.out.println("Gebot von "+ bidder + " nicht höher als vorhandenes");
 		}
 	}
 	

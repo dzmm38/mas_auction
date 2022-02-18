@@ -9,7 +9,7 @@ public class AuctionNote_english extends Artifact {
 		countdown = 15;
 		
 		defineObsProperty("winningBid",0.0f);
-		defineObsProperty("Winner","");
+		defineObsProperty("winner","");
 		
 		//float currentHighestBid = 0;
 		//String currentHighestBidder;
@@ -20,18 +20,18 @@ public class AuctionNote_english extends Artifact {
 		float currentHighestBid = getObsProperty("winningBid").floatValue();
 		if(bid>currentHighestBid) {
 			getObsProperty("winningBid").updateValue(bid);
-			getObsProperty("Winner").updateValue(bidder);
+			getObsProperty("winner").updateValue(bidder);
 			
-			System.out.println("Gebot von "+ bidder + " ist das höchste");
+			//System.out.println("Gebot von "+ bidder + " ist das höchste");
 		
 		}else {
-			System.out.println("Gebot von "+ bidder + " nicht höher als vorhandenes");
+			//System.out.println("Gebot von "+ bidder + " nicht höher als vorhandenes");
 		}
 	}
 	
 	@OPERATION void clearNote() {
 		getObsProperty("winningBid").updateValue(0.0f);
-		getObsProperty("Winner").updateValue("");
+		getObsProperty("winner").updateValue("");
 	}
 }
 
