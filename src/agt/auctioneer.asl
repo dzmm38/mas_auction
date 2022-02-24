@@ -1,6 +1,5 @@
 // Agent sample_agent in project mas_auction
 
-
 /* Initial beliefs and rules */
 
 running_auction(false). //kann nur eine Auktion gleichzeitig geben
@@ -13,7 +12,16 @@ running_auction(false). //kann nur eine Auktion gleichzeitig geben
 
 +isDone(true) <- !closeAuction.
 
++running_auction(false)  <- !askParticipant.
+
 /* Plans */
+
++!askParticipant: nextParticipant(Np) <- 	not Np == ""
+											.send(Np,tell(nextSeller)).
+											
+-!askParticipant <- 	wait(100)
+						!askParticipant.										
+
 
 /* Checks if an Auction is already running */
 +!check_auction(Item,Type,Ag) : running_auction(false) <-	-running_auction(false);
@@ -26,15 +34,7 @@ running_auction(false). //kann nur eine Auktion gleichzeitig geben
 																										
 -!check_auction(Item,Type,Ag) <- 	//.print("Gibt schon was!")
 									//.print(Ag)
-									.send(Ag,tell,running_auction(true)).
-															
-/*															
--!check_auction(Item,Type,Ag) : running_auction(false) <- 	.wait(30);
-															!check_auction(Item,Type,Ag).
-															
--!check_auction(Item,Type,Ag) : running_auction(true) <- 	.wait(30);
-														 	!check_auction(Item,Type,Ag).														 
-*/													
+									.send(Ag,tell,running_auction(true)).												
 															
 @auction_announce															
 +!announce(Item,Type) <- +auction(Item,Type)
@@ -77,8 +77,16 @@ running_auction(false). //kann nur eine Auktion gleichzeitig geben
 +!processBid(Value,Ag) 							<- .print("Nicht implementierte Auktion").
 
 @closeAuction
-+!closeAuction : winningBid(WinValue) & winner(WinAg) & auction(Item,_) <- 	.print("Gewinner ist: ",WinAg, "mit Gebot von: ", WinValue) 
++!closeAuction : winningBid(WinValue)>0 & winner(WinAg) & auction(Item,_) <-.print("Gewinner ist: ",WinAg, "mit Gebot von: ", WinValue) 
 														 					.broadcast(tell,result(WinAg,WinValue,Item))
+														 					!destroyArtifacts
+														 					!removeBeliefs
+														 					.print("---------------------------------------------")
+														 					.print("Auktion beendet, neue kann angefordert werden")
+														 					.print("---------------------------------------------")
+														 					.
+														 					
++!closeAuction : winningBid(WinValue) & winner(WinAg) & auction(Item,_) <- 	.print("Es wurde kein Gebot abgegeben") 
 														 					!destroyArtifacts
 														 					!removeBeliefs
 														 					.print("---------------------------------------------")
