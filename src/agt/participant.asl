@@ -28,8 +28,8 @@ is_more_than(R)
 +!sayHello <- .send(auctioneer, tell, hi).
 
 +!setup_inventory : true <-	.my_name(Me)
-								makeArtifact(Me, "tools.Inventory", [], ID)													
-								.
+							makeArtifact(Me, "tools.Inventory", [], ID)													
+							.
 //WIP
 /*
 +!sell_item <- 	!find_item(Item)
@@ -55,7 +55,7 @@ is_more_than(R)
 									.print("Ich bin Verkäufer").
 									
 -auction_accepted(true) : true <- 	-seller(true);
-									+seller(false)
+								  	+seller(false)
 									.print("Ich bin nicht mehr Verkäufer").
 
 +running_auction(true) : true <- 	.print("OK").

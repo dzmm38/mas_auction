@@ -16,6 +16,7 @@ mas mas_auction {
 
     agent auctioneer : auctioneer.asl{
     	join : auctionTable
+    	focus: auctionTable.queue
     }
     agent bob : participant.asl{
     	
@@ -30,7 +31,7 @@ mas mas_auction {
     	
     }
     workspace auctionTable {
-    	
+    	artifact queue: tools.AuctionQueue
     }
    
 }
