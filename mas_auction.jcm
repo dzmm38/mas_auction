@@ -19,16 +19,16 @@ mas mas_auction {
     	focus: auctionTable.queue
     }
     agent bob : participant.asl{
-    	
+    	join : auctionTable
     }
     agent alice : participant.asl{
-    	
+    	join : auctionTable
     }
     agent max : participant.asl{
-    	
+    	join : auctionTable
     }
     agent klaus : participant.asl{
-    	
+    	join : auctionTable
     }
     workspace auctionTable {
     	artifact queue: tools.AuctionQueue

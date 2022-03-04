@@ -8,19 +8,34 @@ running_auction(false). //kann nur eine Auktion gleichzeitig geben
 
 +request(Item,Type)[source(Ag)] : true <- 	!check_auction(Item,Type,Ag);
 											-request(Item,Type)[source(Ag)].
+											
 +bid(Value)[source(Ag)] : true <- !processBid(Value,Ag).
 
 +isDone(true) <- !closeAuction.
 
-+running_auction(false)  <- !askParticipant.
++running_auction(false) <- !askParticipant.
 
 /* Plans */
 
-+!askParticipant: nextParticipant(Np) <- 	not Np == ""
-											.send(Np,tell(nextSeller)).
++!askParticipant: nextParticipant(Np) <- 	if(NP == "Empty"){
+											.print("Aktuell kein Verkäufer!!!!")
+											.wait(2000)
+											!askParticipant
+											}else{
+											.send(Np,tell,nextSeller(true))
+											getNext
+											}
+											.
+
+-!askParticipant <- .print("Aktuell kein Verkäufer!!!!")
+											.wait(2000)
+											!askParticipant.
 											
+											
+/*
 -!askParticipant <- 	wait(100)
-						!askParticipant.										
+						!askParticipant.	
+*/									
 
 
 /* Checks if an Auction is already running */
@@ -31,10 +46,11 @@ running_auction(false). //kann nur eine Auktion gleichzeitig geben
 															.send(Ag,tell,auction_accepted(true))
 															!announce(Item,Type)
 															.
-																										
+/*																										
 -!check_auction(Item,Type,Ag) <- 	//.print("Gibt schon was!")
 									//.print(Ag)
-									.send(Ag,tell,running_auction(true)).												
+									.send(Ag,tell,running_auction(true)).	
+									*/											
 															
 @auction_announce															
 +!announce(Item,Type) <- +auction(Item,Type)
@@ -77,16 +93,21 @@ running_auction(false). //kann nur eine Auktion gleichzeitig geben
 +!processBid(Value,Ag) 							<- .print("Nicht implementierte Auktion").
 
 @closeAuction
-+!closeAuction : winningBid(WinValue)>0 & winner(WinAg) & auction(Item,_) <-.print("Gewinner ist: ",WinAg, "mit Gebot von: ", WinValue) 
-														 					.broadcast(tell,result(WinAg,WinValue,Item))
++!closeAuction : winningBid(WinValue) & winner(WinAg) & auction(Item,_) <-	if(WinValue > 0){
+																				.print("Gewinner ist: ",WinAg, " mit Gebot von: ", WinValue) 
+														 						.broadcast(tell,result(WinAg,WinValue,Item))
+														 					}else{
+														 						.print("Es wurde kein Gebot abgegeben") 
+														 					}
 														 					!destroyArtifacts
-														 					!removeBeliefs
+														 					
 														 					.print("---------------------------------------------")
 														 					.print("Auktion beendet, neue kann angefordert werden")
 														 					.print("---------------------------------------------")
+														 					!removeBeliefs
 														 					.
 														 					
-+!closeAuction : winningBid(WinValue) & winner(WinAg) & auction(Item,_) <- 	.print("Es wurde kein Gebot abgegeben") 
+-!closeAuction : winningBid(WinValue) & winner(WinAg) & auction(Item,_) <- 	.print("Es wurde kein Gebot abgegeben") 
 														 					!destroyArtifacts
 														 					!removeBeliefs
 														 					.print("---------------------------------------------")
@@ -96,11 +117,12 @@ running_auction(false). //kann nur eine Auktion gleichzeitig geben
 
 +!removeBeliefs : auction(Item,Type) <- 	.broadcast(untell,auction_accepted(true))
 											.broadcast(untell,auction(Item,Type));
+											-auction(Item,Type);
+											.broadcast(untell,nextSeller(true));
 											-running_auction(true);
 											+running_auction(false);
-											-auction(Item,Type)
-											.broadcast(untell,running_auction(true))
 											.
+											
 														 
 @destroyArtifacts														 
 +!destroyArtifacts : auction(_,"SealedBid") <- 	lookupArtifactByType("tools.Counter",C_Id);

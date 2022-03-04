@@ -8,7 +8,8 @@ public class AuctionQueue extends Artifact{
 	ArrayList<String> auctionQueue;
 	
 	void init() {
-		defineObsProperty("nextParticipant","");
+		auctionQueue = new ArrayList<String>();
+		defineObsProperty("nextParticipant","Empty");
 	}
 	
 	@OPERATION
@@ -17,18 +18,24 @@ public class AuctionQueue extends Artifact{
 		if(auctionQueue.size()>0) {
 			getObsProperty("nextParticipant").updateValue(auctionQueue.get(0));
 		}else {
-			getObsProperty("nextParticipant").updateValue("");
+			getObsProperty("nextParticipant").updateValue("Empty");
 		}
 	}
 	
 	@OPERATION
 	void enter(String name) {
 		if(auctionQueue.contains(name)) {
+			System.out.println(name + " wurde NICHT hinzugefügt");
 			return;
 		}else {
 			auctionQueue.add(name);
 			getObsProperty("nextParticipant").updateValue(auctionQueue.get(0));
+			System.out.println(name + " wurde hinzugefügt");
 		}
+		System.out.println("-----------------------------------------------------");
+		System.out.println(auctionQueue);
+		System.out.println(getObsProperty("nextParticipant").stringValue());
+		System.out.println("-----------------------------------------------------");
 	}
 	
 }
