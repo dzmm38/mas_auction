@@ -4,10 +4,6 @@
 /* Initial beliefs and rules */
 
 seller(false).
-wurst(2).
-brot(2).
-kaese(2).
-bier(2).
 
 is_more_than(R)
 	:- brot(C) & (R - C) > 0.
@@ -17,7 +13,7 @@ is_more_than(R)
 /* Initial goals */
 
 !sayHello.
-!setup_inventory.
+!setup_inventory_demands.
 !enterQueue.
 
 //!request_auction("Brot","SealedBid").
@@ -28,12 +24,16 @@ is_more_than(R)
 
 /* Plans */
 
-+!sayHello <- .send(auctioneer, tell, hi).
++!sayHello <- .send(auctioneer, tell, hi);
+			  .print("HALLO").
 
-+!setup_inventory : true <-	.my_name(Me)
++!setup_inventory_demands : true <-	.my_name(Me)
 							makeArtifact(Me, "tools.Inventory", [], ID).
+
 							
-+nextSeller(true): true <- 	!request_auction("Brot","SealedBid").
+ 																				
++nextSeller(true): true <- 	nextItemToSell(Item)
+							!request_auction(Item,"SealedBid").
 
 //WIP
 /*
@@ -43,11 +43,11 @@ is_more_than(R)
 */
 
 //WIP
-/*
+
 +!find_item <- cntItem("Brot",R)
 				is_more_than(R)
 .
-*/
+
 
 //+!request_auction(Item) <- 	.send(auctioneer,tell,request(Item,"SealedBid"))
 
