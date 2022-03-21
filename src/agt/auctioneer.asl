@@ -15,6 +15,8 @@ running_auction(false). //kann nur eine Auktion gleichzeitig geben
 
 +running_auction(false) <- !askParticipant.
 
++expired(true) <- !closeAuction.
+
 /* Plans */
 
 +!askParticipant: nextParticipant(Np) <- 	if(NP == "Empty"){
@@ -72,8 +74,10 @@ running_auction(false). //kann nur eine Auktion gleichzeitig geben
 												makeArtifact("Urn_vik","tools.AuctionNote_vikery",[],Vik_Id);
 												focus(Vik_Id).	
 																	
-+!createArtifacts : auction(_,"English") 	<- makeArtifact("Urn_en","AuctionNote_english",[],En_Id).
-											   /* Hier muss noch ein Countdown Artifact erstellt werden */					 
++!createArtifacts : auction(_,"English") 	<- 	makeArtifact("Urn_en","tools.AuctionNote_english",[],En_Id);
+												focus(En_Id);
+												makeArtifact("Timer","tools.Timer",[],T_Id);
+												focus(T_Id).		 
 		
 @processBids						 
 +!processBid(Value,Ag) : auction(_,"SealedBid") <- .print("Type: SealedBid ", "(",Value, " Gebot von: ", Ag,")")
@@ -86,9 +90,15 @@ running_auction(false). //kann nur eine Auktion gleichzeitig geben
 													-bid(Value)[source(Ag)]
 													inc.
 
-+!processBid(Value,Ag) : auction(_,"English") 	<- .print("Type: English ", "(",Value, " Gebot von: ", Ag,")")
-												 	recieveBid(Ag,Value);
-												 	-bid(Value)[source(Ag)].
++!processBid(Value,Ag) : auction(_,"English") & winningBid(WinValue) 	<- 	.print("Type: English ", "(",Value, " Gebot von: ", Ag,")")
+												 							if(WinValue < Value){
+												 							.broadcast(untell,highestBid(_))
+												 							.broadcast(tell,highestBid(Value))
+																			reset
+												 							}
+												 							receiveBid(Ag,Value);
+												 							-bid(Value)[source(Ag)].
+												 							
 												 
 +!processBid(Value,Ag) 							<- .print("Nicht implementierte Auktion").
 
@@ -115,7 +125,12 @@ running_auction(false). //kann nur eine Auktion gleichzeitig geben
 														 					.print("---------------------------------------------")
 														 					.
 
-+!removeBeliefs : auction(Item,Type) <- 	.broadcast(untell,auction_accepted(true))
++!removeBeliefs : auction(Item,Type) <- 	.broadcast(untell,highestBid(_))			//<- Nur für English Auction
+											
+											/*
+											Für Alle Auctions
+											 */
+											.broadcast(untell,auction_accepted(true))
 											.broadcast(untell,auction(Item,Type));
 											-auction(Item,Type);
 											.broadcast(untell,nextSeller(true));
@@ -142,7 +157,10 @@ running_auction(false). //kann nur eine Auktion gleichzeitig geben
 					  							
 +!destroyArtifacts : auction(_,"English") <-	lookupArtifactByType("tools.AuctionNote_english",En_Id);
 					  							stopFocus(En_Id); 
-					  							disposeArtifact(En_Id).
+					  							disposeArtifact(En_Id)
+					  							lookupArtifactByType("tools.Timer",T_Id);
+					  							stopFocus(T_Id); 
+					  							disposeArtifact(T_Id).
 					  														
 															
 

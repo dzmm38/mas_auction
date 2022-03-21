@@ -33,7 +33,7 @@ is_more_than(R)
 							
  																				
 +nextSeller(true): true <- 	nextItemToSell(Item)
-							!request_auction(Item,"SealedBid").
+							!request_auction(Item,"English").
 
 //WIP
 /*
@@ -52,7 +52,7 @@ is_more_than(R)
 //+!request_auction(Item) <- 	.send(auctioneer,tell,request(Item,"SealedBid"))
 
 +!request_auction(Item,Type) <-		-nextSeller(true)
-									.send(auctioneer,tell,request(Item,Type)).
+									.send(auctioneer,tell,request(Item,Type)).								
 					 
 
 +auction_accepted(true) : true <- 	-seller(false);
@@ -76,7 +76,8 @@ is_more_than(R)
 								!enterQueue.*/
 
 
-+!bid(X) <- .send(auctioneer,tell,bid(X)).
++!bid(X) <- 	.wait(math.random * 5000 + 2000)
+				.send(auctioneer,tell,bid(X)).
 
 +!enterQueue: .my_name(Name) <- enter(Name).
 
