@@ -52,6 +52,25 @@ public class Inventory extends Artifact {
 	}
 	
 	@OPERATION
+	void getMoney(OpFeedbackParam<Integer> result) {
+		ObsProperty p = getObsProperty("Geld");
+		result.set(p.intValue());	
+	}
+	
+	@OPERATION
+	void bidMoney(String item, String type, OpFeedbackParam<Integer> result) {
+		ObsProperty vorhandeneItems = getObsProperty(item);
+		ObsProperty beduerfnis = getObsProperty("D"+item);
+		//ObsProperty geld = getObsProperty("Geld");
+		int diff = beduerfnis.intValue() - vorhandeneItems.intValue();
+		if(diff > 0) {
+			result.set(10);
+		} else {
+			result.set(0);
+		}
+	}
+	
+	@OPERATION
 	void nextItemToSell(OpFeedbackParam<String> result) {
 		if(checkItem("Bier")) {
 			result.set("Bier");
@@ -67,6 +86,25 @@ public class Inventory extends Artifact {
 			return;
 		} else {
 			result.set(null);
+		}
+	}
+	
+	@OPERATION
+	void doWeHaveItemsToSell(OpFeedbackParam<Boolean> result) {
+		if(checkItem("Bier")) {
+			result.set(true);
+			return;
+		} else if (checkItem("Brot")){
+			result.set(true);
+			return;
+		} else if (checkItem("Käse")){
+			result.set(true);
+			return;
+		} else if (checkItem("Wurst")){
+			result.set(true);
+			return;
+		} else {
+			result.set(false);
 		}
 	}
 

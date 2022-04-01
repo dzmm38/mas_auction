@@ -14,7 +14,6 @@ is_more_than(R)
 
 !sayHello.
 !setup_inventory_demands.
-!enterQueue.
 
 //!request_auction("Brot","SealedBid").
 
@@ -28,7 +27,8 @@ is_more_than(R)
 			  .print("HALLO").
 
 +!setup_inventory_demands : true <-	.my_name(Me)
-							makeArtifact(Me, "tools.Inventory", [], ID).
+							makeArtifact(Me, "tools.Inventory", [], ID)
+							!enterQueue.
 
 							
  																				
@@ -65,7 +65,7 @@ is_more_than(R)
 
 +running_auction(true) : true <- 	.print("OK").
 
-+auction(Item,Type) : seller(false) <- !bid(10).
++auction(Item,Type) : seller(false) <- !bid(Item, Type).
 
 /*
 -auction(Item,Type) <- !request_auction("Bier","Vikery").
@@ -74,11 +74,45 @@ is_more_than(R)
 								!enterQueue.
 /*-running_auction(true): true <- .print("Entering Queue!!!!!")
 								!enterQueue.*/
+								
++result(WinAg,WinValue,Item): seller(true) <- !calculateSeller(WinAg, WinValue, Item).	
+
++auctionWinner(Agent,WinValue,Item): true <- !calculateBuyer(Agent, WinValue, Item).											
+
++!calculateSeller(Agent, WinValue, Item) <- .print("Bekomme Geld")
+											.send(Agent,tell,auctionWinner(Agent, WinValue, Item))
+											getMoney(Money)
+											.print("Money: ",Money)
+											addMoney(WinValue)
+											getMoney(Money2)
+											.print("Money: ",Money2)
+											cntItem(Item, ItemCount)
+											.print(Item, ": ", ItemCount)
+											retrieveItem(Item)
+											cntItem(Item, ItemCount2)
+											.print(Item, ": ", ItemCount2).
+											
++!calculateBuyer(Agent, WinValue, Item) <- .print("Gewinner Gewinner Gewinner")
+											addMoney(-WinValue)
+											cntItem(Item, ItemCount)
+											.print(Item, ": ",ItemCount)
+											storeItem(Item)
+											cntItem(Item, ItemCount2)
+											.print(Item, ": ",ItemCount2)
+											.
+														
+															
 
 
-+!bid(X) <- .send(auctioneer,tell,bid(X)).
++!bid(Item, Type) <- 	bidMoney(Item, Type ,X)
+						.send(auctioneer,tell,bid(X)).
 
-+!enterQueue: .my_name(Name) <- enter(Name).
++!enterQueue: .my_name(Name) <- doWeHaveItemsToSell(ItemsToSell)
+								if(ItemsToSell){
+									.print("Ich gehe in die Queue...................")
+									enter(Name)
+								}
+								.
 
 
 

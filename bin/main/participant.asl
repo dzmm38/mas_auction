@@ -4,10 +4,6 @@
 /* Initial beliefs and rules */
 
 seller(false).
-wurst(2).
-brot(2).
-kaese(2).
-bier(2).
 
 is_more_than(R)
 	:- brot(C) & (R - C) > 0.
@@ -16,41 +12,107 @@ is_more_than(R)
 
 /* Initial goals */
 
-!setup_inventory.
-!sell_item.
+!sayHello.
+!setup_inventory_demands.
+
+//!request_auction("Brot","SealedBid").
+
+/*!sell_item.*/
 
 
 
 /* Plans */
 
-+!setup_inventory : true <-	.my_name(Me)
-								makeArtifact(Me, "tools.Inventory", [], ID)													
-								.
++!sayHello <- .send(auctioneer, tell, hi);
+			  .print("HALLO").
+
++!setup_inventory_demands : true <-	.my_name(Me)
+							makeArtifact(Me, "tools.Inventory", [], ID)
+							!enterQueue.
+
+							
+ 																				
++nextSeller(true): true <- 	nextItemToSell(Item)
+							!request_auction(Item,"SealedBid").
+
 //WIP
+/*
 +!sell_item <- 	!find_item(Item)
 				!request_auction(Item)
 				.
+*/
+
 //WIP
+
 +!find_item <- cntItem("Brot",R)
 				is_more_than(R)
 .
 
-+!request_auction(Item) <- 	.send(auctioneer,tell,request(Item,"SealedBid"))
-						.
+
+//+!request_auction(Item) <- 	.send(auctioneer,tell,request(Item,"SealedBid"))
+
++!request_auction(Item,Type) <-		-nextSeller(true)
+									.send(auctioneer,tell,request(Item,Type)).
 					 
 
 +auction_accepted(true) : true <- 	-seller(false);
 									+seller(true)
 									.print("Ich bin Verkäufer").
+									
+-auction_accepted(true) : true <- 	-seller(true);
+								  	+seller(false)
+									.print("Ich bin nicht mehr Verkäufer").
 
 +running_auction(true) : true <- 	.print("OK").
 
-+auction(Item,Type) : seller(false) <- !bid(10).
++auction(Item,Type) : seller(false) <- !bid(Item, Type).
+
+/*
+-auction(Item,Type) <- !request_auction("Bier","Vikery").
+*/
+-auction(Item,Type): true <- .print("Entering Queue!!!!!")
+								!enterQueue.
+/*-running_auction(true): true <- .print("Entering Queue!!!!!")
+								!enterQueue.*/
+								
++result(WinAg,WinValue,Item): seller(true) <- !calculateSeller(WinAg, WinValue, Item).	
+
++auctionWinner(Agent,WinValue,Item): true <- !calculateBuyer(Agent, WinValue, Item).											
+
++!calculateSeller(Agent, WinValue, Item) <- .print("Bekomme Geld")
+											.send(Agent,tell,auctionWinner(Agent, WinValue, Item))
+											getMoney(Money)
+											.print("Money: ",Money)
+											addMoney(WinValue)
+											getMoney(Money2)
+											.print("Money: ",Money2)
+											cntItem(Item, ItemCount)
+											.print(Item, ": ", ItemCount)
+											retrieveItem(Item)
+											cntItem(Item, ItemCount2)
+											.print(Item, ": ", ItemCount2).
+											
++!calculateBuyer(Agent, WinValue, Item) <- .print("Gewinner Gewinner Gewinner")
+											addMoney(-WinValue)
+											cntItem(Item, ItemCount)
+											.print(Item, ": ",ItemCount)
+											storeItem(Item)
+											cntItem(Item, ItemCount2)
+											.print(Item, ": ",ItemCount2)
+											.
+														
+															
 
 
-+!bid(X) <- .send(auctioneer,tell,bid(X)).
++!bid(Item, Type) <- 	bidMoney(Item, Type ,X)
+						.send(auctioneer,tell,bid(X)).
 
-
++!enterQueue: .my_name(Name) <- doWeHaveItemsToSell(ItemsToSell)
+								if(ItemsToSell){
+									.print("Ich gehe in die Queue...................")
+									enter(Name)
+								}
+								.
 
 
 
