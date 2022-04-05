@@ -12,7 +12,7 @@ public class Counter extends Artifact {
 		defineObsProperty("isDone", false);
 		this.targetValue = targetValue;
 		
-		System.out.println("created counter with targetValue: " + targetValue);
+		//System.out.println("created counter with targetValue: " + targetValue);
 	}
 
 	@OPERATION
@@ -23,7 +23,7 @@ public class Counter extends Artifact {
 		if(prop.intValue() == targetValue) {
 			getObsProperty("isDone").updateValue(true);
 			
-			System.out.println("Es haben alle Teilneher ein gebot abgegeben!!!");
+			System.out.println("Es haben alle Teilneher ein gebot abgegeben.");
 		}
 		
 		//ObsProperty prop = getObsProperty("count");

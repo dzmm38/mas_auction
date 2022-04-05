@@ -25,7 +25,8 @@ is_more_than(R)
 /* Plans */
 
 +!sayHello <- .send(auctioneer, tell, hi);
-			  .print("HALLO").
+			  //.print("HALLO")
+			  .
 
 +!setup_inventory_demands : true <-	.my_name(Me)
 							makeArtifact(Me, "tools.Inventory", [], ID).
@@ -33,7 +34,7 @@ is_more_than(R)
 							
  																				
 +nextSeller(true): true <- 	nextItemToSell(Item)
-							!request_auction(Item,"English").
+							!request_auction(Item,"Vikery").
 
 //WIP
 /*
@@ -61,7 +62,8 @@ is_more_than(R)
 									
 -auction_accepted(true) : true <- 	-seller(true);
 								  	+seller(false)
-									.print("Ich bin nicht mehr Verkäufer").
+									//.print("Ich bin nicht mehr Verkäufer")
+									.
 
 +running_auction(true) : true <- 	.print("OK").
 
@@ -70,7 +72,7 @@ is_more_than(R)
 /*
 -auction(Item,Type) <- !request_auction("Bier","Vikery").
 */
--auction(Item,Type): true <- .print("Entering Queue!!!!!")
+-auction(Item,Type): true <- //.print("Entering Queue!!!!!")
 								!enterQueue.
 /*-running_auction(true): true <- .print("Entering Queue!!!!!")
 								!enterQueue.*/

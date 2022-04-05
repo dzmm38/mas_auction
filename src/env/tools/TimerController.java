@@ -17,7 +17,7 @@ public class TimerController extends Artifact{
 	}
 	
 	void startTimer() {
-		System.out.println("Starting Timer ...");
+		System.out.println("(Re)Starting Timer ...");
 		
 		Timer timer = new Timer(voteTime);
 		future = CompletableFuture.supplyAsync(timer::goTime);
@@ -28,7 +28,7 @@ public class TimerController extends Artifact{
 	
 	@INTERNAL_OPERATION			//Internal op damit kein lock problem entsteht
 	void notifyAuctioneer() {
-		System.out.println("Aution ended ...");
+		//System.out.println("Aution ended ...");
 		//defineObsProperty("isDone", true);
 		signal("done");	
 	}
@@ -37,7 +37,7 @@ public class TimerController extends Artifact{
 	void reset() {
 		boolean canceled;
 		canceled = future.cancel(true);
-		System.out.println("Cancel Timer ... : "+ canceled);
+		//System.out.println("Cancel Timer ... : "+ canceled);
 		startTimer();
 	}
 	
