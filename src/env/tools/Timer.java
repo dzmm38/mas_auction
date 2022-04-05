@@ -1,67 +1,21 @@
 package tools;
 
-import java.util.ArrayList;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ScheduledFuture;
-import java.util.concurrent.ScheduledThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
-
-import cartago.Artifact;
-import cartago.OPERATION;
-
-public class Timer extends Artifact{
+public class Timer {
 	
-	ScheduledThreadPoolExecutor stp;
-	Updater task;
-	int time = 10;
-	ScheduledFuture f;
+	int time;
 	
-	void init() {
-		defineObsProperty("isDone",false);
-		
-		System.out.println("Setting Timer!!!!!!!!!!!!!!!!!!!!!!!!");
-		
-		stp = new ScheduledThreadPoolExecutor(1);
-		task = new Updater();
-		
-		f = stp.schedule(task, time, TimeUnit.SECONDS);
-		
+	public Timer(int time) {
+		this.time = time*1000;	//mit 1000 multiplizieren um auf sec zu kommen
 	}
 	
-	@OPERATION
-	void reset(){
-		
-		System.out.println("Resetting Timer!!!!!!!!!!!!!!!!!!!!!!!!");
-		
-		f.cancel(true);
-		//stp.remove(task);
-		f = stp.schedule(task, time, TimeUnit.SECONDS);
-		
-		check();
-	}
-	
-	void check() {
-		boolean done;
+	boolean goTime() {
 		try {
-			done = (boolean) f.get();
-			if(done) {
-				System.out.println(done);
-				getObsProperty("isDone").updateValue(true);
-			}
-		} catch (InterruptedException | ExecutionException e) {
-			System.out.println("Hoffentliche sehen wir das nie !!!!!");
+			Thread.sleep(time);
+		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
+		
+		//System.out.println("Timer Run out!!!!!");	//aktuell nur debug
+		return true;
 	}
-	
-	
-	class Updater implements Callable<Boolean>{
-		@Override
-		public Boolean call() throws Exception {
-			System.out.println("Timer Expired !!!!!!!!!!!!!!!!!!!!!!!!!!!");
-			return true;
-		}
-	}
-	
 }

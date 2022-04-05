@@ -13,6 +13,8 @@ running_auction(false). //kann nur eine Auktion gleichzeitig geben
 
 +isDone(true) <- !closeAuction.
 
++done <- !closeAuction.
+
 +running_auction(false) <- !askParticipant.
 
 +expired(true) <- !closeAuction.
@@ -76,7 +78,7 @@ running_auction(false). //kann nur eine Auktion gleichzeitig geben
 																	
 +!createArtifacts : auction(_,"English") 	<- 	makeArtifact("Urn_en","tools.AuctionNote_english",[],En_Id);
 												focus(En_Id);
-												makeArtifact("Timer","tools.Timer",[],T_Id);
+												makeArtifact("Timer","tools.TimerController",[],T_Id);
 												focus(T_Id).		 
 		
 @processBids						 
@@ -93,6 +95,7 @@ running_auction(false). //kann nur eine Auktion gleichzeitig geben
 +!processBid(Value,Ag) : auction(_,"English") & winningBid(WinValue) 	<- 	.print("Type: English ", "(",Value, " Gebot von: ", Ag,")")
 												 							if(WinValue < Value){
 												 							.broadcast(untell,highestBid(_))
+												 							.print("dadsdasaadada")
 												 							.broadcast(tell,highestBid(Value))
 																			reset
 												 							}
@@ -158,7 +161,7 @@ running_auction(false). //kann nur eine Auktion gleichzeitig geben
 +!destroyArtifacts : auction(_,"English") <-	lookupArtifactByType("tools.AuctionNote_english",En_Id);
 					  							stopFocus(En_Id); 
 					  							disposeArtifact(En_Id)
-					  							lookupArtifactByType("tools.Timer",T_Id);
+					  							lookupArtifactByType("tools.TimerController",T_Id);
 					  							stopFocus(T_Id); 
 					  							disposeArtifact(T_Id).
 					  														

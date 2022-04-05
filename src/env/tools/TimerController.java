@@ -1,40 +1,44 @@
 package tools;
 
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ScheduledFuture;
-import java.util.concurrent.ScheduledThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
-
+import java.util.concurrent.CompletableFuture;
 import cartago.Artifact;
+import cartago.INTERNAL_OPERATION;
 import cartago.OPERATION;
-import tools.Timer.Updater;
 
 public class TimerController extends Artifact{
-	ScheduledThreadPoolExecutor stp;
 	Timer timer;
-	int time = 10;
-	ScheduledFuture timerObjects;
+	int voteTime;
+	CompletableFuture<Boolean> future;
 	
 	void init(){
-		timerObjects = stp.schedule(timer, 10, TimeUnit.SECONDS);
+		defineObsProperty("isDone", false);
+		voteTime = 10;
+		startTimer();
+	}
+	
+	void startTimer() {
+		System.out.println("Starting Timer ...");
+		
+		Timer timer = new Timer(voteTime);
+		future = CompletableFuture.supplyAsync(timer::goTime);
+		future.thenAccept(isDone -> execInternalOp("notifyAuctioneer"));	//--> Dieser Teil wird anscheinend nur ausgeführt wenn auch der Thread nich abgebrochen wird 
+																			//    jedoch läuft der Thread trotzdem durch !!!!
+																			//execInteralOp um dann mithilfe von cartago die Methode richtig ausführen zu könenn
+	}
+	
+	@INTERNAL_OPERATION			//Internal op damit kein lock problem entsteht
+	void notifyAuctioneer() {
+		System.out.println("Aution ended ...");
+		//defineObsProperty("isDone", true);
+		signal("done");	
 	}
 	
 	@OPERATION
-	void reset(){
-		timerObjects.cancel(true);
-		timerObjects = stp.schedule(timer, 10, TimeUnit.SECONDS);
+	void reset() {
+		boolean canceled;
+		canceled = future.cancel(true);
+		System.out.println("Cancel Timer ... : "+ canceled);
+		startTimer();
 	}
 	
-	class Timer implements Runnable {
-		
-		void timer(){
-			
-		}
-		
-		@Override
-		public void run() {
-			
-		}
-	}
 }
