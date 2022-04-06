@@ -14,9 +14,11 @@ public class AuctionQueue extends Artifact{
 	
 	@OPERATION
 	void getNext() {
+		//System.out.println("Nächste/r Verkäufer/in ist: " + getObsProperty("nextParticipant").stringValue());
 		auctionQueue.remove(0);
 		if(auctionQueue.size()>0) {
 			getObsProperty("nextParticipant").updateValue(auctionQueue.get(0));
+			//System.out.println("Aktuelle Auction Queue für Verkäufer ist: " + auctionQueue);
 		}else {
 			getObsProperty("nextParticipant").updateValue("Empty");
 		}
@@ -25,17 +27,19 @@ public class AuctionQueue extends Artifact{
 	@OPERATION
 	void enter(String name) {
 		if(auctionQueue.contains(name)) {
-			System.out.println(name + " wurde NICHT hinzugefügt");
+			//System.out.println(name + " wurde NICHT hinzugefügt");
 			return;
 		}else {
 			auctionQueue.add(name);
 			getObsProperty("nextParticipant").updateValue(auctionQueue.get(0));
-			System.out.println(name + " wurde hinzugefügt");
+			//System.out.println(name + " wurde hinzugefügt");
 		}
+		/*
 		System.out.println("-----------------------------------------------------");
 		System.out.println(auctionQueue);
 		System.out.println(getObsProperty("nextParticipant").stringValue());
 		System.out.println("-----------------------------------------------------");
+		*/
 	}
 	
 }

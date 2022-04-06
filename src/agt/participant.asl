@@ -24,7 +24,8 @@ is_more_than(R)
 /* Plans */
 
 +!sayHello <- .send(auctioneer, tell, hi);
-			  .print("HALLO").
+			  //.print("HALLO")
+			  .
 
 +!setup_inventory_demands : true <-	.my_name(Me)
 							makeArtifact(Me, "tools.Inventory", [], ID)
@@ -33,7 +34,7 @@ is_more_than(R)
 							
  																				
 +nextSeller(true): true <- 	nextItemToSell(Item)
-							!request_auction(Item,"SealedBid").
+							!request_auction(Item,"Vikery").
 
 //WIP
 /*
@@ -52,7 +53,7 @@ is_more_than(R)
 //+!request_auction(Item) <- 	.send(auctioneer,tell,request(Item,"SealedBid"))
 
 +!request_auction(Item,Type) <-		-nextSeller(true)
-									.send(auctioneer,tell,request(Item,Type)).
+									.send(auctioneer,tell,request(Item,Type)).								
 					 
 
 +auction_accepted(true) : true <- 	-seller(false);
@@ -61,7 +62,8 @@ is_more_than(R)
 									
 -auction_accepted(true) : true <- 	-seller(true);
 								  	+seller(false)
-									.print("Ich bin nicht mehr Verkäufer").
+									//.print("Ich bin nicht mehr Verkäufer")
+									.
 
 +running_auction(true) : true <- 	.print("OK").
 
@@ -70,7 +72,7 @@ is_more_than(R)
 /*
 -auction(Item,Type) <- !request_auction("Bier","Vikery").
 */
--auction(Item,Type): true <- .print("Entering Queue!!!!!")
+-auction(Item,Type): true <- //.print("Entering Queue!!!!!")
 								!enterQueue.
 /*-running_auction(true): true <- .print("Entering Queue!!!!!")
 								!enterQueue.*/
@@ -104,8 +106,15 @@ is_more_than(R)
 															
 
 
+/*Richtige!!!!!! */
 +!bid(Item, Type) <- 	bidMoney(Item, Type ,X)
 						.send(auctioneer,tell,bid(X)).
+						
+/*Testversion 
++!bid(X) <- 	.wait(math.random * 5000 + 2000)
+				.send(auctioneer,tell,bid(X)).
+*/
+
 
 +!enterQueue: .my_name(Name) <- doWeHaveItemsToSell(ItemsToSell)
 								if(ItemsToSell){

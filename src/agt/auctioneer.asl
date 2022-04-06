@@ -13,10 +13,16 @@ running_auction(false). //kann nur eine Auktion gleichzeitig geben
 
 +isDone(true) <- !closeAuction.
 
++done <- !closeAuction.
+
 +running_auction(false) <- !askParticipant.
+
++expired(true) <- !closeAuction.
 
 /* Plans */
 
+
+@askParticipants
 +!askParticipant: nextParticipant(Np) <- 	if(NP == "Empty"){
 											.print("Aktuell kein Verkäufer!!!!")
 											.wait(2000)
@@ -28,14 +34,8 @@ running_auction(false). //kann nur eine Auktion gleichzeitig geben
 											.
 
 -!askParticipant <- .print("Aktuell kein Verkäufer!!!!")
-											.wait(2000)
-											!askParticipant.
-											
-											
-/*
--!askParticipant <- 	wait(100)
-						!askParticipant.	
-*/									
+					.wait(2000)
+					!askParticipant.								
 
 
 /* Checks if an Auction is already running */
@@ -45,19 +45,16 @@ running_auction(false). //kann nur eine Auktion gleichzeitig geben
 															//.print(Ag)
 															.send(Ag,tell,auction_accepted(true))
 															!announce(Item,Type)
-															.
-/*																										
--!check_auction(Item,Type,Ag) <- 	//.print("Gibt schon was!")
-									//.print(Ag)
-									.send(Ag,tell,running_auction(true)).	
-									*/											
+															.											
+	
 															
 @auction_announce															
 +!announce(Item,Type) <- +auction(Item,Type)
 						 !createArtifacts
 						 .broadcast(tell,auction(Item,Type)) //weiß der auktionator an wen er die nachricht geschickt hat
-						 .print("auction with ", Item, " (",Type,")")
+						 .print("Neue Auktion für ", Item, " (",Type,")")
 						 .	
+
 
 @creteArtifacts					 
 +!createArtifacts : auction(_,"SealedBid") <- 	.count(hi[_],Participants)
@@ -72,25 +69,37 @@ running_auction(false). //kann nur eine Auktion gleichzeitig geben
 												makeArtifact("Urn_vik","tools.AuctionNote_vikery",[],Vik_Id);
 												focus(Vik_Id).	
 																	
-+!createArtifacts : auction(_,"English") 	<- makeArtifact("Urn_en","AuctionNote_english",[],En_Id).
-											   /* Hier muss noch ein Countdown Artifact erstellt werden */					 
++!createArtifacts : auction(_,"English") 	<- 	makeArtifact("Urn_en","tools.AuctionNote_english",[],En_Id);
+												focus(En_Id);
+												makeArtifact("Timer","tools.TimerController",[],T_Id);
+												focus(T_Id).		 
+		
 		
 @processBids						 
-+!processBid(Value,Ag) : auction(_,"SealedBid") <- .print("Type: SealedBid ", "(",Value, " Gebot von: ", Ag,")")
++!processBid(Value,Ag) : auction(_,"SealedBid") <- //.print("Type: SealedBid ", "(",Value, " Gebot von: ", Ag,")")
+													.print("Neues Gebot von ",Ag,": ", Value)
 													receiveBid(Ag,Value);
 													-bid(Value)[source(Ag)]
 													inc.
 													
-+!processBid(Value,Ag) : auction(_,"Vikery") 	<- .print("Type: Vikery ", "(",Value, " Gebot von: ", Ag,")")
++!processBid(Value,Ag) : auction(_,"Vikery") 	<- //.print("Type: Vikery ", "(",Value, " Gebot von: ", Ag,")")
+													.print("Neues Gebot von ",Ag,": ", Value)
 													receiveBid(Ag,Value);
 													-bid(Value)[source(Ag)]
 													inc.
 
-+!processBid(Value,Ag) : auction(_,"English") 	<- .print("Type: English ", "(",Value, " Gebot von: ", Ag,")")
-												 	recieveBid(Ag,Value);
-												 	-bid(Value)[source(Ag)].
-												 
++!processBid(Value,Ag) : auction(_,"English") & winningBid(WinValue) 	<- 	//.print("Type: English ", "(",Value, " Gebot von: ", Ag,")")
+																			.print("Neues Gebot von ",Ag,": ", Value)
+												 							if(WinValue < Value){
+												 							.broadcast(untell,highestBid(_))
+												 							.broadcast(tell,highestBid(Value))
+																			reset
+												 							}
+												 							receiveBid(Ag,Value);
+												 							-bid(Value)[source(Ag)].
+												 							
 +!processBid(Value,Ag) 							<- .print("Nicht implementierte Auktion").
+
 
 @closeAuction
 +!closeAuction : winningBid(WinValue) & winner(WinAg) & auction(Item,_) <-	if(WinValue > 0){
@@ -115,7 +124,10 @@ running_auction(false). //kann nur eine Auktion gleichzeitig geben
 														 					.print("---------------------------------------------")
 														 					.
 
-+!removeBeliefs : auction(Item,Type) <- 	.broadcast(untell,auction_accepted(true))
++!removeBeliefs : auction(Item,Type) <- 	.broadcast(untell,highestBid(_))			//<- Nur für English Auction
+											
+											/* Für Alle Auctions */
+											.broadcast(untell,auction_accepted(true))
 											.broadcast(untell,auction(Item,Type));
 											-auction(Item,Type);
 											.broadcast(untell,nextSeller(true));
@@ -142,7 +154,10 @@ running_auction(false). //kann nur eine Auktion gleichzeitig geben
 					  							
 +!destroyArtifacts : auction(_,"English") <-	lookupArtifactByType("tools.AuctionNote_english",En_Id);
 					  							stopFocus(En_Id); 
-					  							disposeArtifact(En_Id).
+					  							disposeArtifact(En_Id)
+					  							lookupArtifactByType("tools.TimerController",T_Id);
+					  							stopFocus(T_Id); 
+					  							disposeArtifact(T_Id).
 					  														
 															
 
