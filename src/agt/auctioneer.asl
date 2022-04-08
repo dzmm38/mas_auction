@@ -19,6 +19,8 @@ running_auction(false). //kann nur eine Auktion gleichzeitig geben
 
 +expired(true) <- !closeAuction.
 
++traidingDone <- broadcast(untell,result(_,_,_)).
+
 /* Plans */
 
 
@@ -88,11 +90,11 @@ running_auction(false). //kann nur eine Auktion gleichzeitig geben
 													-bid(Value)[source(Ag)]
 													inc.
 
-+!processBid(Value,Ag) : auction(_,"English") & winningBid(WinValue) 	<- 	//.print("Type: English ", "(",Value, " Gebot von: ", Ag,")")
++!processBid(Value,Ag) : auction(CurrentItem,"English") & winningBid(WinValue) 	<- 	//.print("Type: English ", "(",Value, " Gebot von: ", Ag,")")
 																			.print("Neues Gebot von ",Ag,": ", Value)
 												 							if(WinValue < Value){
-												 							.broadcast(untell,highestBid(_))
-												 							.broadcast(tell,highestBid(Value))
+												 							.broadcast(untell,highestBid(_,_,_))
+												 							.broadcast(tell,highestBid(Value,CurrentItem,Ag))
 																			reset
 												 							}
 												 							receiveBid(Ag,Value);
@@ -124,7 +126,7 @@ running_auction(false). //kann nur eine Auktion gleichzeitig geben
 														 					.print("---------------------------------------------")
 														 					.
 
-+!removeBeliefs : auction(Item,Type) <- 	.broadcast(untell,highestBid(_))			//<- Nur für English Auction
++!removeBeliefs : auction(Item,Type) <- 	.broadcast(untell,highestBid(_,_,_))			//<- Nur für English Auction
 											
 											/* Für Alle Auctions */
 											.broadcast(untell,auction_accepted(true))

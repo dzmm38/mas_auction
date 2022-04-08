@@ -74,12 +74,18 @@ is_more_than(R)
 */
 -auction(Item,Type): true <- //.print("Entering Queue!!!!!")
 								!enterQueue.
+								
 /*-running_auction(true): true <- .print("Entering Queue!!!!!")
 								!enterQueue.*/
 								
-+result(WinAg,WinValue,Item): seller(true) <- !calculateSeller(WinAg, WinValue, Item).	
++result(WinAg,WinValue,Item): seller(true) <- !calculateSeller(WinAg, WinValue, Item);
+												-result(_,_,_).
 
-+auctionWinner(Agent,WinValue,Item): true <- !calculateBuyer(Agent, WinValue, Item).											
+
++auctionWinner(Agent,WinValue,Item): true <- !calculateBuyer(Agent, WinValue, Item).
+												-acutionWinner(_,_,_).
+
+-result(_,_,_) <- send("auctioneer",untell, traidingDone).											
 
 +!calculateSeller(Agent, WinValue, Item) <- .print("Bekomme Geld")
 											.send(Agent,tell,auctionWinner(Agent, WinValue, Item))
@@ -92,7 +98,9 @@ is_more_than(R)
 											.print(Item, ": ", ItemCount)
 											retrieveItem(Item)
 											cntItem(Item, ItemCount2)
-											.print(Item, ": ", ItemCount2).
+											.print(Item, ": ", ItemCount2)
+											.send("auctioneer",tell,traidingDone)
+											.
 											
 +!calculateBuyer(Agent, WinValue, Item) <- .print("Gewinner Gewinner Gewinner")
 											addMoney(-WinValue)
@@ -120,6 +128,8 @@ is_more_than(R)
 								if(ItemsToSell){
 									.print("Ich gehe in die Queue...................")
 									enter(Name)
+								}else{
+									.print("SKIPT.... ", ItemsToSell )
 								}
 								.
 
