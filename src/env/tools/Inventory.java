@@ -8,7 +8,7 @@ public class Inventory extends Artifact {
 		
 	
 	void init() {
-		defineObsProperty("Geld", 10);
+		defineObsProperty("Geld", 40);
 		
 		defineObsProperty("Bier",random());
 		defineObsProperty("Brot",random());
@@ -19,12 +19,21 @@ public class Inventory extends Artifact {
 		defineObsProperty("DBrot",random());
 		defineObsProperty("DKäse",random());
 		defineObsProperty("DWurst",random());
+		
+		defineObsProperty("VBier",random10());
+		defineObsProperty("VBrot",random10());
+		defineObsProperty("VKäse",random10());
+		defineObsProperty("VWurst",random10());
 
 
 	}
 	
 	private int random() {
 		return ThreadLocalRandom.current().nextInt(0, 4);
+	}
+	
+	private int random10() {
+		return ThreadLocalRandom.current().nextInt(0, 10);
 	}
 	
 	@OPERATION
