@@ -68,12 +68,17 @@ public class Inventory extends Artifact {
 
 	@OPERATION
 	void bidMoney(String item, String type, OpFeedbackParam<Integer> result) {
-		ObsProperty vorhandeneItems = getObsProperty(item);
-		ObsProperty beduerfnis = getObsProperty("D" + item);
-		// ObsProperty geld = getObsProperty("Geld");
-		int diff = beduerfnis.intValue() - vorhandeneItems.intValue();
-		if (diff > 0) {
-			result.set(10);
+		ObsProperty myItems = getObsProperty(item);
+		ObsProperty demandItem = getObsProperty("D" + item);
+		ObsProperty myMoney = getObsProperty("Geld");
+		int demand = demandItem.intValue() - myItems.intValue();
+		if (demand > 0) {
+			int value = getObsProperty("V"+item).intValue();
+			if(myMoney.intValue() >= value) {
+				result.set(value);
+			} else {
+				result.set(myMoney.intValue());
+			}
 		} else {
 			result.set(0);
 		}
