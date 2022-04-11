@@ -6,8 +6,13 @@ running_auction(false). //kann nur eine Auktion gleichzeitig geben
 
 /* Initial goals */
 
-+request(Item,Type)[source(Ag)] : true <- 	!check_auction(Item,Type,Ag);
-											-request(Item,Type)[source(Ag)].
++request(Item,Type)[source(Ag)] : true <- 	-request(Item,Type)[source(Ag)]
+											if(Item == "nix"){
+											.print("Item ist nicht vorhanden !!!!!!!: ", Item)
+											!askParticipant
+											}else{
+											!check_auction(Item,Type,Ag);
+											}.
 											
 +bid(Value)[source(Ag)] : true <- !processBid(Value,Ag).
 
@@ -19,7 +24,7 @@ running_auction(false). //kann nur eine Auktion gleichzeitig geben
 
 +expired(true) <- !closeAuction.
 
-+traidingDone <- broadcast(untell,result(_,_,_)).
+//+traidingDone <- broadcast(untell,result(_,_,_)).
 
 /* Plans */
 
@@ -110,6 +115,7 @@ running_auction(false). //kann nur eine Auktion gleichzeitig geben
 														 					}else{
 														 						.print("Es wurde kein Gebot abgegeben") 
 														 					}
+														 					.wait(2000);		//Delay zur besseren anschauung
 														 					!destroyArtifacts
 														 					
 														 					.print("---------------------------------------------")
@@ -139,8 +145,8 @@ running_auction(false). //kann nur eine Auktion gleichzeitig geben
 											
 														 
 @destroyArtifacts														 
-+!destroyArtifacts : auction(_,"SealedBid") <- 	lookupArtifactByType("tools.Counter",C_Id);
-					  							stopFocus(C_Id);
++!destroyArtifacts : auction(_,"SealedBid") <- 	lookupArtifactByType("tools.Counter",C_Id)
+					  							stopFocus(C_Id)
 					  							disposeArtifact(C_Id);
 					  							lookupArtifactByType("tools.AuctionNote_sealedBid",Sb_Id);
 					  							stopFocus(Sb_Id);
