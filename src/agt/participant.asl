@@ -24,7 +24,6 @@ is_more_than(R)
 /* Plans */
 
 +!sayHello <- .send(auctioneer, tell, hi);
-			  //.print("HALLO")
 			  .
 
 +!setup_inventory_demands : true <-	.my_name(Me)
@@ -34,7 +33,7 @@ is_more_than(R)
 							
  																				
 +nextSeller(true): true <- 	nextItemToSell(Item)
-							!request_auction(Item,"Vikery").
+							!request_auction(Item,"SealedBid").
 
 //WIP
 /*
@@ -126,7 +125,7 @@ is_more_than(R)
 
 +!enterQueue: .my_name(Name) <- doWeHaveItemsToSell(ItemsToSell)
 								if(ItemsToSell){
-									.print("Ich gehe in die Queue...................")
+									.print("Ich gehe in die Queue...................", ItemsToSell)
 									enter(Name)
 								}else{
 									.print("SKIPT.... ", ItemsToSell )
