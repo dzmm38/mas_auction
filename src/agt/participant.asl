@@ -77,14 +77,16 @@ is_more_than(R)
 /*-running_auction(true): true <- .print("Entering Queue!!!!!")
 								!enterQueue.*/
 								
-+result(WinAg,WinValue,Item): seller(true) <- !calculateSeller(WinAg, WinValue, Item);
-												-result(_,_,_).
++result(WinAg,WinValue,Item): seller(true) <- 	!calculateSeller(WinAg, WinValue, Item);
+												-result(_,_,_)[source(_)].
+												
++result(WinAg,WinValue,Item): seller(false) <- -result(_,_,_)[source(_)].										
 
 
 +auctionWinner(Agent,WinValue,Item): true <- !calculateBuyer(Agent, WinValue, Item).
-												-acutionWinner(_,_,_).
+											 -acutionWinner(_,_,_)[source(_)].
 
--result(_,_,_) <- send("auctioneer",untell, traidingDone).											
+//-result(_,_,_) <- send("auctioneer",untell, traidingDone).											
 
 +!calculateSeller(Agent, WinValue, Item) <- .print("Bekomme Geld")
 											.send(Agent,tell,auctionWinner(Agent, WinValue, Item))
@@ -98,7 +100,7 @@ is_more_than(R)
 											retrieveItem(Item)
 											cntItem(Item, ItemCount2)
 											.print(Item, ": ", ItemCount2)
-											.send("auctioneer",tell,traidingDone)
+											//.send("auctioneer",tell,traidingDone)
 											.
 											
 +!calculateBuyer(Agent, WinValue, Item) <- .print("Gewinner Gewinner Gewinner")
