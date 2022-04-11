@@ -100,7 +100,7 @@ public class Inventory extends Artifact {
 			items.add("Wurst");
 		}
 		if (items.size() == 0) {
-			result.set(null);
+			result.set("nix");
 		} else {
 			int randomInt = ThreadLocalRandom.current().nextInt(0, items.size());
 			result.set(items.get(randomInt));
