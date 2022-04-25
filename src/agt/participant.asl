@@ -33,7 +33,7 @@ is_more_than(R)
 							
  																				
 +nextSeller(true): true <- 	nextItemToSell(Item)
-							!request_auction(Item,"SealedBid").
+							!request_auction(Item,"English"). //"SealedBid"		"Vickery"		"English"
 
 //WIP
 /*
@@ -85,6 +85,8 @@ is_more_than(R)
 
 +auctionWinner(Agent,WinValue,Item): true <- !calculateBuyer(Agent, WinValue, Item).
 											 -acutionWinner(_,_,_)[source(_)].
+											 
++simulationDone <- .print("Mache nichts mehr: Simulation Fertig").
 
 //-result(_,_,_) <- send("auctioneer",untell, traidingDone).											
 

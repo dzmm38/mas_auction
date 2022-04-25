@@ -3,6 +3,8 @@
 /* Initial beliefs and rules */
 
 running_auction(false). //kann nur eine Auktion gleichzeitig geben
+nullRunde(0).
+emptyQueue(0).
 
 /* Initial goals */
 
@@ -24,25 +26,39 @@ running_auction(false). //kann nur eine Auktion gleichzeitig geben
 
 +expired(true) <- !closeAuction.
 
++nullRunde(8) <- !terminate.
+
++emptyQueue(5) <- !termiante.
+
 //+traidingDone <- broadcast(untell,result(_,_,_)).
 
 /* Plans */
 
 
 @askParticipants
-+!askParticipant: nextParticipant(Np) <- 	if(NP == "Empty"){
-											.print("Aktuell kein Verkäufer!!!!")
-											.wait(2000)
-											!askParticipant
-											}else{
-											.send(Np,tell,nextSeller(true))
-											getNext
-											}
-											.
++!askParticipant: nextParticipant(Np) & nullRunde(Mcount) & emptyQueue(Qcount) <- 	if(Mcount < 8){
+																						if(Qcount < 5){
+																							if(NP == "Empty"){	
+																								-emptyQueue(_)
+																								+emptyQueue(Qcount+1)
+																								.print("Aktuell kein Verkäufer!!!!")
+																								.wait(2000)
+																								!askParticipant
+																							}else{
+																								-emptyQueue(_)
+																								+emptyQueue(0)
+																								.send(Np,tell,nextSeller(true))
+																								getNext
+																							}
+																						}		
+																					}
+																					.
 
--!askParticipant <- .print("Aktuell kein Verkäufer!!!!")
-					.wait(2000)
-					!askParticipant.								
+-!askParticipant : emptyQueue(Qcount) <-.print("Aktuell kein Verkäufer!!!!")
+										.wait(2000);
+										-emptyQueue(_);
+										+emptyQueue(Qcount+1)
+										!askParticipant.								
 
 
 /* Checks if an Auction is already running */
@@ -84,19 +100,25 @@ running_auction(false). //kann nur eine Auktion gleichzeitig geben
 		
 @processBids						 
 +!processBid(Value,Ag) : auction(_,"SealedBid") <- //.print("Type: SealedBid ", "(",Value, " Gebot von: ", Ag,")")
-													.print("Neues Gebot von ",Ag,": ", Value)
+													if(Value > 0){
+														.print("Neues Gebot von ",Ag,": ", Value)
+													}
 													receiveBid(Ag,Value);
 													-bid(Value)[source(Ag)]
 													inc.
 													
 +!processBid(Value,Ag) : auction(_,"Vikery") 	<- //.print("Type: Vikery ", "(",Value, " Gebot von: ", Ag,")")
-													.print("Neues Gebot von ",Ag,": ", Value)
+													if(Value > 0){
+														.print("Neues Gebot von ",Ag,": ", Value)
+													}
 													receiveBid(Ag,Value);
 													-bid(Value)[source(Ag)]
 													inc.
 
 +!processBid(Value,Ag) : auction(CurrentItem,"English") & winningBid(WinValue) 	<- 	//.print("Type: English ", "(",Value, " Gebot von: ", Ag,")")
-																			.print("Neues Gebot von ",Ag,": ", Value)
+																			if(Value > 0){
+																				.print("Neues Gebot von ",Ag,": ", Value)
+																			}
 												 							if(WinValue < Value){
 												 							.broadcast(untell,highestBid(_,_,_))
 												 							.broadcast(tell,highestBid(Value,CurrentItem,Ag))
@@ -109,28 +131,34 @@ running_auction(false). //kann nur eine Auktion gleichzeitig geben
 
 
 @closeAuction
-+!closeAuction : winningBid(WinValue) & winner(WinAg) & auction(Item,_) <-	if(WinValue > 0){
-																				.print("Gewinner ist: ",WinAg, " mit Gebot von: ", WinValue) 
-														 						.broadcast(tell,result(WinAg,WinValue,Item))
-														 					}else{
-														 						.print("Es wurde kein Gebot abgegeben") 
-														 					}
-														 					.wait(2000);		//Delay zur besseren anschauung
-														 					!destroyArtifacts
++!closeAuction : winningBid(WinValue) & winner(WinAg) & auction(Item,_) & nullRunde(Ncount) <-	if(WinValue > 0){
+																								.print("Gewinner ist: ",WinAg, " mit Gebot von: ", WinValue) 
+														 										.broadcast(tell,result(WinAg,WinValue,Item));
+														 										-nullRunde(_);
+														 										+nullRunde(0)
+														 										}else{
+														 										.print("Es wurde kein Gebot abgegeben");
+														 										-nullRunde(_);
+														 										+nullRunde(Ncount+1)
+														 										}
+														 										.wait(2000);		//Delay zur besseren anschauung
+														 										!destroyArtifacts
 														 					
-														 					.print("---------------------------------------------")
-														 					.print("Auktion beendet, neue kann angefordert werden")
-														 					.print("---------------------------------------------")
-														 					!removeBeliefs
-														 					.
+														 										.print("---------------------------------------------")
+														 										.print("Auktion beendet, neue kann angefordert werden")
+														 										.print("---------------------------------------------")
+														 										!removeBeliefs
+														 										.
 														 					
--!closeAuction : winningBid(WinValue) & winner(WinAg) & auction(Item,_) <- 	.print("Es wurde kein Gebot abgegeben") 
-														 					!destroyArtifacts
-														 					!removeBeliefs
-														 					.print("---------------------------------------------")
-														 					.print("Auktion beendet, neue kann angefordert werden")
-														 					.print("---------------------------------------------")
-														 					.
+-!closeAuction : winningBid(WinValue) & winner(WinAg) & auction(Item,_) & nullRunde(Ncount) <- 	.print("Es wurde kein Gebot abgegeben");
+														 										-nullRunde(_);
+														 										+nullRunde(Ncount+1)
+														 										!destroyArtifacts
+														 										!removeBeliefs
+														 										.print("---------------------------------------------")
+														 										.print("Auktion beendet, neue kann angefordert werden")
+														 										.print("---------------------------------------------")
+														 										.
 
 +!removeBeliefs : auction(Item,Type) <- 	.broadcast(untell,highestBid(_,_,_))			//<- Nur für English Auction
 											
@@ -145,8 +173,8 @@ running_auction(false). //kann nur eine Auktion gleichzeitig geben
 											
 														 
 @destroyArtifacts														 
-+!destroyArtifacts : auction(_,"SealedBid") <- 	lookupArtifactByType("tools.Counter",C_Id)
-					  							stopFocus(C_Id)
++!destroyArtifacts : auction(_,"SealedBid") <- 	lookupArtifactByType("tools.Counter",C_Id);
+					  							stopFocus(C_Id);
 					  							disposeArtifact(C_Id);
 					  							lookupArtifactByType("tools.AuctionNote_sealedBid",Sb_Id);
 					  							stopFocus(Sb_Id);
@@ -166,8 +194,8 @@ running_auction(false). //kann nur eine Auktion gleichzeitig geben
 					  							lookupArtifactByType("tools.TimerController",T_Id);
 					  							stopFocus(T_Id); 
 					  							disposeArtifact(T_Id).
-					  														
-															
+					  							
++!terminate <- 	.broadcast(tell,simulationDone).													
 
 { include("$jacamoJar/templates/common-cartago.asl") }
 { include("$jacamoJar/templates/common-moise.asl") }
