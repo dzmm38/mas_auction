@@ -9,17 +9,19 @@ import cartago.*;
 public class Inventory extends Artifact {
 
 	void init() {
-		defineObsProperty("Geld", 40);
+		//defineObsProperty("Geld", 40);
 
-		defineObsProperty("Bier", random());
-		defineObsProperty("Brot", random());
-		defineObsProperty("Käse", random());
-		defineObsProperty("Wurst", random());
+		initInventoryByName();
+		
+//		defineObsProperty("Bier", random());
+//		defineObsProperty("Brot", random());
+//		defineObsProperty("Käse", random());
+//		defineObsProperty("Wurst", random());
 
-		defineObsProperty("DBier", random());
-		defineObsProperty("DBrot", random());
-		defineObsProperty("DKäse", random());
-		defineObsProperty("DWurst", random());
+//		defineObsProperty("DBier", random());
+//		defineObsProperty("DBrot", random());
+//		defineObsProperty("DKäse", random());
+//		defineObsProperty("DWurst", random());
 
 		defineObsProperty("VBier", random10());
 		defineObsProperty("VBrot", random10());
@@ -35,7 +37,106 @@ public class Inventory extends Artifact {
 	private int random10() {
 		return ThreadLocalRandom.current().nextInt(0, 10);
 	}
-
+	
+	//TODO: values für den Testcase definieren
+	@OPERATION
+	void initInventoryByName() {
+		String creatorId = getCreatorId().toString();
+		switch(creatorId) {
+	//***********************************************
+	//	SIM3
+	//***********************************************	
+//		case "bob":
+//			defineObsProperty("Geld", 20);
+//			defineObsProperties("inventory", 5, 1, 2, 1);
+//			defineObsProperties("demand", 1, 4, 2, 3);
+//			defineObsProperties("value", 1, 2, 3, 4);
+//		case "alice":
+//			defineObsProperty("Geld", 20);
+//			defineObsProperties("inventory", 0, 3, 0, 1);
+//			defineObsProperties("demand", 3, 2, 0, 1);
+//			defineObsProperties("value", 1, 2, 3, 4);
+//		case "max":
+//			defineObsProperty("Geld", 20);
+//			defineObsProperties("inventory", 0, 1, 1, 0);
+//			defineObsProperties("demand", 2, 2, 2, 2);
+//			defineObsProperties("value", 1, 2, 3, 4);
+//		case "klaus":
+//			defineObsProperty("Geld", 20);
+//			defineObsProperties("inventory", 0, 1, 1, 2);
+//			defineObsProperties("demand", 1, 2, 1, 0);
+//			defineObsProperties("value", 1, 2, 3, 4);
+			
+	//***********************************************
+	//	SIM2
+	//***********************************************		
+		case "bob":
+			defineObsProperty("Geld", 10);
+			defineObsProperties("inventory", 2, 2, 3, 2);
+			defineObsProperties("demand", 2, 3, 0, 0);
+			//defineObsProperties("value", 1, 2, 3, 4);
+		case "alice":
+			defineObsProperty("Geld", 10);
+			defineObsProperties("inventory", 4, 2, 1, 1);
+			defineObsProperties("demand", 2, 3, 0, 0);
+			//defineObsProperties("value", 1, 2, 3, 4);
+		case "max":
+			defineObsProperty("Geld", 10);
+			defineObsProperties("inventory", 1, 1, 1, 1);
+			defineObsProperties("demand", 1, 1, 2, 3);
+			//defineObsProperties("value", 1, 2, 3, 4);
+		case "klaus":
+			defineObsProperty("Geld", 10);
+			defineObsProperties("inventory", 1, 2, 3, 1);
+			defineObsProperties("demand", 0, 0, 4, 1);
+			//defineObsProperties("value", 1, 2, 3, 4);
+			
+		//***********************************************
+		//	SIM1
+		//***********************************************	
+//		case "bob":
+//			defineObsProperty("Geld", 10);
+//			defineObsProperties("inventory", 2, 2, 0, 2);
+//			defineObsProperties("demand", 3, 2, 3, 1);
+//			defineObsProperties("value", 1, 2, 3, 4);
+//		case "alice":
+//			defineObsProperty("Geld", 10);
+//			defineObsProperties("inventory", 4, 0, 1, 2);
+//			defineObsProperties("demand", 2, 0, 0, 2);
+//			defineObsProperties("value", 1, 2, 3, 4);
+//		case "max":
+//			defineObsProperty("Geld", 10);
+//			defineObsProperties("inventory", 0, 1, 1, 2);
+//			defineObsProperties("demand", 2, 2, 0, 0);
+//			defineObsProperties("value", 1, 2, 3, 4);
+//		case "klaus":
+//			defineObsProperty("Geld", 10);
+//			defineObsProperties("inventory", 2, 1, 2, 1);
+//			defineObsProperties("demand", 1, 0, 1, 4);
+//			defineObsProperties("value", 1, 2, 3, 4);
+		}
+	}
+	
+	void defineObsProperties(String mode, int bier, int brot, int käse, int wurst) {
+		switch(mode) {
+			case "inventory":
+				defineObsProperty("Bier", bier);
+				defineObsProperty("Brot", brot);
+				defineObsProperty("Käse", käse);
+				defineObsProperty("Wurst", wurst);
+			case "demand":
+				defineObsProperty("DBier", bier);
+				defineObsProperty("DBrot", brot);
+				defineObsProperty("DKäse", käse);
+				defineObsProperty("DWurst", wurst);
+			case "value":
+				defineObsProperty("VBier", bier);
+				defineObsProperty("VBrot", brot);
+				defineObsProperty("VKäse", käse);
+				defineObsProperty("VWurst", wurst);
+		}
+	}
+	
 	@OPERATION
 	void addMoney(int money) {
 		ObsProperty property = getObsProperty("Geld");
