@@ -17,7 +17,7 @@ public class Inventory extends Artifact {
 //		defineObsProperty("Brot", random());
 //		defineObsProperty("Käse", random());
 //		defineObsProperty("Wurst", random());
-
+//
 //		defineObsProperty("DBier", random());
 //		defineObsProperty("DBrot", random());
 //		defineObsProperty("DKäse", random());
@@ -51,21 +51,25 @@ public class Inventory extends Artifact {
 //			defineObsProperties("inventory", 5, 1, 2, 1);
 //			defineObsProperties("demand", 1, 4, 2, 3);
 //			defineObsProperties("value", 1, 2, 3, 4);
+//		break;
 //		case "alice":
 //			defineObsProperty("Geld", 20);
 //			defineObsProperties("inventory", 0, 3, 0, 1);
 //			defineObsProperties("demand", 3, 2, 0, 1);
 //			defineObsProperties("value", 1, 2, 3, 4);
+//		break;
 //		case "max":
 //			defineObsProperty("Geld", 20);
 //			defineObsProperties("inventory", 0, 1, 1, 0);
 //			defineObsProperties("demand", 2, 2, 2, 2);
 //			defineObsProperties("value", 1, 2, 3, 4);
+//		break;
 //		case "klaus":
 //			defineObsProperty("Geld", 20);
 //			defineObsProperties("inventory", 0, 1, 1, 2);
 //			defineObsProperties("demand", 1, 2, 1, 0);
 //			defineObsProperties("value", 1, 2, 3, 4);
+//		break;
 			
 	//***********************************************
 	//	SIM2
@@ -75,21 +79,25 @@ public class Inventory extends Artifact {
 			defineObsProperties("inventory", 2, 2, 3, 2);
 			defineObsProperties("demand", 2, 3, 0, 0);
 			//defineObsProperties("value", 1, 2, 3, 4);
+			break;
 		case "alice":
 			defineObsProperty("Geld", 10);
 			defineObsProperties("inventory", 4, 2, 1, 1);
 			defineObsProperties("demand", 2, 3, 0, 0);
 			//defineObsProperties("value", 1, 2, 3, 4);
+			break;
 		case "max":
 			defineObsProperty("Geld", 10);
 			defineObsProperties("inventory", 1, 1, 1, 1);
 			defineObsProperties("demand", 1, 1, 2, 3);
 			//defineObsProperties("value", 1, 2, 3, 4);
+			break;
 		case "klaus":
 			defineObsProperty("Geld", 10);
 			defineObsProperties("inventory", 1, 2, 3, 1);
 			defineObsProperties("demand", 0, 0, 4, 1);
 			//defineObsProperties("value", 1, 2, 3, 4);
+			break;
 			
 		//***********************************************
 		//	SIM1
@@ -99,21 +107,25 @@ public class Inventory extends Artifact {
 //			defineObsProperties("inventory", 2, 2, 0, 2);
 //			defineObsProperties("demand", 3, 2, 3, 1);
 //			defineObsProperties("value", 1, 2, 3, 4);
+//			break;
 //		case "alice":
 //			defineObsProperty("Geld", 10);
 //			defineObsProperties("inventory", 4, 0, 1, 2);
 //			defineObsProperties("demand", 2, 0, 0, 2);
 //			defineObsProperties("value", 1, 2, 3, 4);
+//			break;
 //		case "max":
 //			defineObsProperty("Geld", 10);
 //			defineObsProperties("inventory", 0, 1, 1, 2);
 //			defineObsProperties("demand", 2, 2, 0, 0);
 //			defineObsProperties("value", 1, 2, 3, 4);
+//			break;
 //		case "klaus":
 //			defineObsProperty("Geld", 10);
 //			defineObsProperties("inventory", 2, 1, 2, 1);
 //			defineObsProperties("demand", 1, 0, 1, 4);
 //			defineObsProperties("value", 1, 2, 3, 4);
+//			break;
 		}
 	}
 	
@@ -124,16 +136,19 @@ public class Inventory extends Artifact {
 				defineObsProperty("Brot", brot);
 				defineObsProperty("Käse", käse);
 				defineObsProperty("Wurst", wurst);
+				break;
 			case "demand":
 				defineObsProperty("DBier", bier);
 				defineObsProperty("DBrot", brot);
 				defineObsProperty("DKäse", käse);
 				defineObsProperty("DWurst", wurst);
+				break;
 			case "value":
 				defineObsProperty("VBier", bier);
 				defineObsProperty("VBrot", brot);
 				defineObsProperty("VKäse", käse);
 				defineObsProperty("VWurst", wurst);
+				break;
 		}
 	}
 	

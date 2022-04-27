@@ -77,6 +77,8 @@ is_more_than(R)
 /*-running_auction(true): true <- .print("Entering Queue!!!!!")
 								!enterQueue.*/
 								
+/* +highestBid(Value, CurrentItem, Ag) <- !keepBidding(Value, CurrentItem, Ag).	*/							
+								
 +result(WinAg,WinValue,Item): seller(true) <- 	!calculateSeller(WinAg, WinValue, Item);
 												-result(_,_,_)[source(_)].
 												
@@ -119,12 +121,20 @@ is_more_than(R)
 
 /*Richtige!!!!!! */
 +!bid(Item, Type) <- 	bidMoney(Item, Type ,X)
-						.send(auctioneer,tell,bid(X)).
+						.send(auctioneer,tell,bid(X)).												
 						
 /*Testversion 
 +!bid(X) <- 	.wait(math.random * 5000 + 2000)
-				.send(auctioneer,tell,bid(X)).
+				.send(auctioneer,tell,bid(X)).				
 */
+
+/* +!keepBidding(Value, CurrentItem, Ag) <- .myName(Name)
+										 .print(Name, Ag, "Keep bidding")
+										 if(Name == Ag){
+										 	calculateNextBid(Value, CurrentItem, Ag, X)
+										 	.send(auctioneer, tell, bid(X))
+										 }.*/
+										 
 
 
 +!enterQueue: .my_name(Name) <- doWeHaveItemsToSell(ItemsToSell)
@@ -132,7 +142,7 @@ is_more_than(R)
 									.print("Ich gehe in die Queue...................", ItemsToSell)
 									enter(Name)
 								}else{
-									.print("SKIPT.... ", ItemsToSell )
+									.print("Skipping q, nothing to sell ", ItemsToSell )
 								}
 								.
 
