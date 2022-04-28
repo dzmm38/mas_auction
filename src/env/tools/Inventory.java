@@ -184,6 +184,10 @@ public class Inventory extends Artifact {
 
 	@OPERATION
 	void bidMoney(String item, String type, OpFeedbackParam<Integer> result) {
+		if(type.equals("English")) {
+			result.set(calculateStartingBid(item));
+			return;
+		}
 		ObsProperty myItems = getObsProperty(item);
 		ObsProperty demandItem = getObsProperty("D" + item);
 		ObsProperty myMoney = getObsProperty("Geld");
@@ -198,6 +202,15 @@ public class Inventory extends Artifact {
 		} else {
 			result.set(0);
 		}
+	}
+	
+	public int calculateStartingBid(String item) {
+		int myMoney = getObsProperty("Geld").intValue();
+		int itemValue = getObsProperty("V"+item).intValue();
+		if(myMoney > itemValue/2) {
+			return itemValue/2;
+		}
+		return 0;
 	}
 
 	@OPERATION
@@ -239,6 +252,17 @@ public class Inventory extends Artifact {
 			return;
 		} else {
 			result.set(false);
+		}
+	}
+	
+	@OPERATION
+	public void calculateNextBid(int bid, String item, String agent, OpFeedbackParam<Integer> result) {
+		int itemValue = getObsProperty("V" + item).intValue();
+		int myMoney = getObsProperty("Geld").intValue();
+		if((bid < itemValue) && ((bid + 1) <= myMoney)) {
+			result.set(bid + 1);
+		} else {
+			result.set(0);
 		}
 	}
 

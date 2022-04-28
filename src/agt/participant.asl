@@ -77,7 +77,7 @@ is_more_than(R)
 /*-running_auction(true): true <- .print("Entering Queue!!!!!")
 								!enterQueue.*/
 								
-/* +highestBid(Value, CurrentItem, Ag) <- !keepBidding(Value, CurrentItem, Ag).	*/							
+ +highestBid(Value, CurrentItem, Ag) <- !keepBidding(Value, CurrentItem, Ag).							
 								
 +result(WinAg,WinValue,Item): seller(true) <- 	!calculateSeller(WinAg, WinValue, Item);
 												-result(_,_,_)[source(_)].
@@ -128,12 +128,12 @@ is_more_than(R)
 				.send(auctioneer,tell,bid(X)).				
 */
 
-/* +!keepBidding(Value, CurrentItem, Ag) <- .myName(Name)
++!keepBidding(Value, CurrentItem, Ag) <- .my_name(Name)
 										 .print(Name, Ag, "Keep bidding")
-										 if(Name == Ag){
+										 if(Name \== Ag){
 										 	calculateNextBid(Value, CurrentItem, Ag, X)
 										 	.send(auctioneer, tell, bid(X))
-										 }.*/
+										 }.
 										 
 
 
