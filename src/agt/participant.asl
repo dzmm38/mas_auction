@@ -129,7 +129,6 @@ is_more_than(R)
 */
 
 +!keepBidding(Value, CurrentItem, Ag) <- .my_name(Name)
-										 .print(Name, Ag, "Keep bidding")
 										 if(Name \== Ag){
 										 	calculateNextBid(Value, CurrentItem, Ag, X)
 										 	.send(auctioneer, tell, bid(X))
