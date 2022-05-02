@@ -21,7 +21,7 @@ Dabei ist der Autkionator für die Druchführung und Verwaltung der Auktionen zu
 
 **Aufbau des Systems :**
 
-![mas_auction Aufbau](MAS-Aufbau.jpg?raw=true)
+![mas_auction Aufbau](images/MAS-Aufbau.jpg?raw=true)
 
 
 ## Technologies
@@ -76,7 +76,7 @@ Nachdem das Projekt importiert wurde, siehe [mas_auction installieren](#masaucti
 
 In der jcm Datei werden alle Akteure und Artefakte die zum Starten des Programms benötigt werden erstellt. Um neue Teilnehmer hinzuzufügen die dann auch an Auktionen Teilnehmen können, müssen diese in der jcm zunächst defeiniert, bzw. angelegt werden.
 
-![Aufteilung der .jcm Datei]()
+![Aufteilung der .jcm Datei](images/jcm-Datei%20aufteilung.jpg)
 
 Hinzufügen weiterer Teilnehmer :
 ```
