@@ -77,7 +77,7 @@ is_more_than(R)
 /*-running_auction(true): true <- .print("Entering Queue!!!!!")
 								!enterQueue.*/
 								
- +highestBid(Value, CurrentItem, Ag) <- !keepBidding(Value, CurrentItem, Ag).							
+								+highestBid(Value, CurrentItem, Ag) <- !keepBidding(Value, CurrentItem, Ag).							
 								
 +result(WinAg,WinValue,Item): seller(true) <- 	!calculateSeller(WinAg, WinValue, Item);
 												-result(_,_,_)[source(_)].
