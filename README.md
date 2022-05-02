@@ -10,16 +10,18 @@
 Das Projekt **mas_auction** ist ein Multiagentensystem für die Simulation von Auktionen mit flexibler anzahl an Teilnehmern.
 Dabei ist der Autkionator für die Druchführung und Verwaltung der Auktionen zuständig, während die Teilnehmer sowohl Verkäufer als auch Käufer darstellen können.
 
+**TODO** : noch auf das Buch verweisen !!!!!
+
 **Kernaspekte :**
 * Teilnehmer können Verkäufer als auch Käufer sein
 * Es ist nur eine gleichzeitige Auktion möglich
 * Es kann aus drei verschiedenen Auktionstypen eine ausgewählt werden (English Auction, Sealed Bid Auction, Vickery Auction)
-* Teilnehmer bieten für eine Auktion so viel wie ihnen der Gegenstand der aktuellen Auktion wert ist & besitzen eine **Hapiness Funktion** die dazu beiträgt
+* Teilnehmer bieten für eine Auktion so viel wie ihnen der Gegenstand der aktuellen Auktion wert ist & besitzen eine Hapiness Funktion die dazu beiträgt
 * Teilnehmer können selbst entscheiden mit welchem Auktionstypen sie Verkaufen möchten (Funktion dafür ist implementiert, Teilnehmer nutzen diese allerdings noch nicht richtig)
 
 **Aufbau des Systems :**
 
-![mas_auction Aufbau](https://ibb.co/2Nzp0r3)
+![mas_auction Aufbau](https://git.thm.de/dzmm38/mas_auction/blob/master/MAS-Aufbau.png?raw=true)
 
 
 ## Technologies
@@ -95,12 +97,12 @@ An dem Projekt **mas_auction** des Moduls **Multiagentensysteme** haben folgente
 * Tim Uhlemann
 * Erik Damm
 * Sebastian Kirchner
-* Maximilian .....
+* Maximilian Hönig
 
 Die Teilnehmer wurde in zwei Gruppen (Auctioneer & Participant) aufgeteilt und haben sich hauptsächlich um implementation der beiden Hauptakteure einer Auktion und deren nötiger Hilfsmittel etc. gekümmert. Weitere Aufgaben wurden unabhängig der Gruppen zugeteilt und erledigt.
 
 | Team Auctioneer | Team Participant |
 |:--------------|:-------------:|
 | Dennis Zimmer | Erik Damm |
-| Tim Uhlemann | Sebastian Krichner |
-|  | Maximilian .... |
+| Tim Uhlemann | Sebastian Kirchner |
+|  | Maximilian Hönig|
