@@ -22,7 +22,7 @@ Erstellt wurde das Projekt in dem Modul Multiagentensysteme. Als Grundlage dazu 
 
 **Aufbau des Systems :**
 
-<image src="images/MAS-Aufbau.jpg" width="550">
+<img src="images/MAS-Aufbau.jpg" width="550">
 
 
 ## Technologien
@@ -77,7 +77,7 @@ Nachdem das Projekt importiert wurde, siehe [mas_auction installieren](#masaucti
 
 In der jcm Datei werden alle Akteure und Artefakte die zum Starten des Programms benötigt werden erstellt. Um neue Teilnehmer hinzuzufügen die dann auch an Auktionen Teilnehmen können, müssen diese in der jcm zunächst defeiniert, bzw. angelegt werden.
 
-<image src="images/jcm-Datei%20aufteilung.jpg" width=450>
+<img src="images/jcm-Datei%20aufteilung.jpg" width=450>
 
 Hinzufügen weiterer Teilnehmer :
 ```
@@ -122,7 +122,7 @@ Die durchgeführeten Testcases werden nun mit den erwarteten Ergebnissen anfolge
 
 Testcase 1:
 
-<image src="images/testcase1.jpg">
+<img src="images/testcase1.jpg">
 
 **TODO** Restliche Testcases noch hinzufügen!!!!
 
