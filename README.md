@@ -21,7 +21,7 @@ Dabei ist der Autkionator für die Druchführung und Verwaltung der Auktionen zu
 
 **Aufbau des Systems :**
 
-![mas_auction Aufbau](https://git.thm.de/dzmm38/mas_auction/blob/master/MAS-Aufbau.jpg?raw=true)
+![mas_auction Aufbau](MAS-Aufbau.jpg?raw=true)
 
 
 ## Technologies
