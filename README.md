@@ -1,16 +1,17 @@
 ## Übersicht
-1. [Allgemeine-Informationen](#allgemeine-informationen)
-2. [Technologien](#technologies)
+1. [Allgemeine Informationen](#allgemeine-informationen)
+2. [Technologien](#technologien)
 3. [Installation](#installation)
 4. [Verwendung](#verwendung)
-5. [Projekt-Teilnehmer](#projekt-Teilnehmer)
+5. [Projekt Teilnehmer](#projekt-teilnehmer)
+6. [Weitere Informationen](#weitere-informationen)
 
-### Allgemeine-Informationen
+## Allgemeine Informationen
 ***
 Das Projekt **mas_auction** ist ein Multiagentensystem für die Simulation von Auktionen mit flexibler anzahl an Teilnehmern.
-Dabei ist der Autkionator für die Druchführung und Verwaltung der Auktionen zuständig, während die Teilnehmer sowohl Verkäufer als auch Käufer darstellen können.
+Dabei gibt es die beiden Hauptakteure Auktionator und Teilnehmer. Der Autkionator ist für die Druchführung und Verwaltung der Auktionen zuständig, während die Teilnehmer sowohl Verkäufer als auch Käufer darstellen können.
 
-**TODO** : noch auf das Buch verweisen !!!!!
+Erstellt wurde das Projekt in dem Modul Multiagentensysteme. Als Grundlage dazu wurde das Buch: [Multi-Agent Oriented Programming](https://hds.hebis.de/thm/Record/HEB486480208) verwendet.
 
 **Kernaspekte :**
 * Teilnehmer können Verkäufer als auch Käufer sein
@@ -21,10 +22,10 @@ Dabei ist der Autkionator für die Druchführung und Verwaltung der Auktionen zu
 
 **Aufbau des Systems :**
 
-![mas_auction Aufbau](images/MAS-Aufbau.jpg?raw=true)
+<image src="images/MAS-Aufbau.jpg" width="550">
 
 
-## Technologies
+## Technologien
 ***
 Das Project basiert hauptächlich auf dem [JaCaMo](http://jacamo.sourceforge.net) Framework für Multiagentensysteme. Das Framework führt dabei die drei Frameworks / Interpreter [Jason](http://jason.sourceforge.net/wp), [CArtAgO](http://cartago.sourceforge.net) und [Moise](http://moise.sourceforge.net) zusammen. Alle wurden mit unterschiedenlichen Schwerkpunkten in der Entwicklung von Multiagentensystemen entwickelt. Durch [JaCaMo](http://jacamo.sourceforge.net) kann man die Vorteiler aller drei Frameworks nutzen.
 
@@ -32,9 +33,9 @@ Für das Projekt wurden hauptsächlich Funktionen aus [Jason](http://jason.sourc
 Als Entwicklungsumgebung wurde [Eclipse](https://www.eclipse.org/) verwendet, da [JaCaMo](http://jacamo.sourceforge.net) als Plugin aktuell nur für diese IDE verfügbar ist und nur so genutzt werden kann. Alle der Frameworks nutzen dabei Java als Basis. Dahingehen wurde auch Java für dieses Projekt genutzt. Besonders zum erstellen von Artefakten für [CArtAgO](http://cartago.sourceforge.net) wurde Java Code verwendet.
 
 Eine Liste der Technologien die für das Projekt verwendet wurden:
-* [JaCaMo](http://jacamo.sourceforge.net):  Version **TODO**
-* [Eclipse](https://www.eclipse.org/): Version **TODO**
-* [Java](https://example.com): Version **TODO**
+* [JaCaMo](http://jacamo.sourceforge.net):  Version 0.9
+* [Eclipse](https://www.eclipse.org/): Version 2020-9
+* [Java](https://example.com): Version 8 / >=15
 * [Git](https://git-scm.com) & [GitLab](https://about.gitlab.com)
 
 ## Installation
@@ -76,7 +77,7 @@ Nachdem das Projekt importiert wurde, siehe [mas_auction installieren](#masaucti
 
 In der jcm Datei werden alle Akteure und Artefakte die zum Starten des Programms benötigt werden erstellt. Um neue Teilnehmer hinzuzufügen die dann auch an Auktionen Teilnehmen können, müssen diese in der jcm zunächst defeiniert, bzw. angelegt werden.
 
-![Aufteilung der .jcm Datei](images/jcm-Datei%20aufteilung.jpg)
+<image src="images/jcm-Datei%20aufteilung.jpg" width=450>
 
 Hinzufügen weiterer Teilnehmer :
 ```
@@ -85,11 +86,12 @@ agent <Name des neuen Teilnehmer> : participant.asl{
 }
 ```
 
-**Ausführen von Testcases :**
+#### **Ausführen von Testcases :**
+Die definierten Testcases mit den jeweiligen ausgerechneten Ergebnissen finden sich [hier](#verwendete-testcases).
 
-TODO
+**TODO**
 
-## Projekt-Teilnehmer
+## Projekt Teilnehmer
 ***
 An dem Projekt **mas_auction** des Moduls **Multiagentensysteme** haben folgenten Teilnehmer mitgewirkt :
 
@@ -106,3 +108,23 @@ Die Teilnehmer wurde in zwei Gruppen (Auctioneer & Participant) aufgeteilt und h
 | Dennis Zimmer | Erik Damm |
 | Tim Uhlemann | Sebastian Kirchner |
 |  | Maximilian Hönig|
+
+## Weitere Informationen
+***
+**Funktionsweise :**
+
+Eine Detaillierte Dokumentation bzw. Beschreibungen sind als Kommentare im Code selbst vorhanden. Pläne und Beliefs werden dort in ihrem Zweck erläutert etc. 
+***
+#### **Verwendete Testcases :**
+Um das Programm bzw. System zu Testen wurden drei verschiedene Testcases erstellt und durchlaufen. 
+Wie dieses Testcases ausgeführt werden können ist in [hier](#ausführen-von-testcases) beschrieben.
+Die durchgeführeten Testcases werden nun mit den erwarteten Ergebnissen anfolgend aufgelistet.
+
+Testcase 1:
+
+<image src="images/testcase1.jpg">
+
+**TODO** Restliche Testcases noch hinzufügen!!!!
+
+
+
