@@ -88,7 +88,9 @@ is_more_than(R)
 +auctionWinner(Agent,WinValue,Item): true <- !calculateBuyer(Agent, WinValue, Item).
 											 -acutionWinner(_,_,_)[source(_)].
 											 
-+simulationDone <- .print("Mache nichts mehr: Simulation Fertig").
++simulationDone <- .print("Mache nichts mehr: Simulation Fertig")
+					happiness(Result)
+					.print(Result).
 
 //-result(_,_,_) <- send("auctioneer",untell, traidingDone).											
 
