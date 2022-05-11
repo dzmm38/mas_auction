@@ -28,7 +28,7 @@ emptyQueue(0).
 
 +nullRunde(8) <- !terminate.
 
-+emptyQueue(5) <- !termiante.
++emptyQueue(5) <- !terminate.
 
 //+traidingDone <- broadcast(untell,result(_,_,_)).
 
@@ -36,7 +36,7 @@ emptyQueue(0).
 
 
 @askParticipants
-+!askParticipant: nextParticipant(Np) & nullRunde(Mcount) & emptyQueue(Qcount) <- 	if(Mcount < 8){
++!askParticipant: nextParticipant(NP) & nullRunde(Mcount) & emptyQueue(Qcount) <- 	if(Mcount < 8){
 																						if(Qcount < 5){
 																							if(NP == "Empty"){	
 																								-emptyQueue(_)
@@ -45,9 +45,10 @@ emptyQueue(0).
 																								.wait(2000)
 																								!askParticipant
 																							}else{
+																								
 																								-emptyQueue(_)
-																								+emptyQueue(0)
-																								.send(Np,tell,nextSeller(true))
+																								+emptyQueue(0)																			
+																								.send(NP,tell,nextSeller(true))
 																								getNext
 																							}
 																						}		
