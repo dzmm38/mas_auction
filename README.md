@@ -22,7 +22,7 @@ Erstellt wurde das Projekt in dem Modul Multiagentensysteme. Als Grundlage dazu 
 
 **Aufbau des Systems :**
 
-<img src="images/MAS-Aufbau.jpg" width="550">
+<img src="images/MAS-Aufbau.jpg" width="600">
 
 
 ## Technologien
@@ -35,7 +35,7 @@ Als Entwicklungsumgebung wurde [Eclipse](https://www.eclipse.org/) verwendet, da
 Eine Liste der Technologien die für das Projekt verwendet wurden:
 * [JaCaMo](http://jacamo.sourceforge.net):  Version 0.9
 * [Eclipse](https://www.eclipse.org/): Version 2020-9
-* [Java](https://example.com): Version 8 / >=15
+* [Java](https://example.com): Version 8
 * [Git](https://git-scm.com) & [GitLab](https://about.gitlab.com)
 
 ## Installation
@@ -87,7 +87,17 @@ agent <Name des neuen Teilnehmer> : participant.asl{
 ```
 
 #### **Ausführen von Testcases :**
-Die definierten Testcases mit den jeweiligen ausgerechneten Ergebnissen finden sich [hier](#verwendete-testcases).
+Die definierten Testcases mit den jeweiligen erwarteten Ergebnissen finden sich [hier](#verwendete-testcases). Um die Testcases auszuführen bzw. zwischen ihnen und der nicht definierten Simulation zu wechseln, benötigt es aktuell etwas aufwand. Dazu müssen in dem Artefakt **Inventory** unter **src/env/tools/Inventory.java** die für das Testcase zuständigen Zeilen auskommentiert bzw. kommentiert werden. 
+
+Testcase 1 :
+
+**TODO**
+
+Testcase 2 :
+
+**TODO**
+
+Standard Simulation :
 
 **TODO**
 
@@ -113,7 +123,14 @@ Die Teilnehmer wurde in zwei Gruppen (Auctioneer & Participant) aufgeteilt und h
 ***
 **Funktionsweise :**
 
-Eine Detaillierte Dokumentation bzw. Beschreibungen sind als Kommentare im Code selbst vorhanden. Pläne und Beliefs werden dort in ihrem Zweck erläutert etc. 
+Eine Detaillierte Dokumentation bzw. Beschreibungen sind als Kommentare im Code selbst vorhanden. Pläne und Beliefs werden dort in ihrem Zweck erläutert etc.
+
+**Hapiness Funktion :**
+
+Die Hapiness Funktion definiert wie der Teilnehmer sein Inventar bewertet & wie zufrieden bzw. glücklich dieser damit ist. Dabei haben die verschiedenen Gegenstände und Geld eine Unterschiedliche gewichtung für die Teilnehmer.
+Die Berechnung der "Hapiness" wurde dabei mit folgender Funktion berechnet:
+**TODO**
+
 ***
 #### **Verwendete Testcases :**
 Um das Programm bzw. System zu Testen wurden drei verschiedene Testcases erstellt und durchlaufen. 
