@@ -33,7 +33,7 @@ is_more_than(R)
 							
  																				
 +nextSeller(true): true <- 	nextItemToSell(Item)
-							!request_auction(Item,"English"). //"SealedBid"		"Vickery"		"English"
+							!request_auction(Item,"SealedBid"). //"SealedBid"		"Vickery"		"English"
 
 //WIP
 /*
