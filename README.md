@@ -89,17 +89,16 @@ agent <Name des neuen Teilnehmer> : participant.asl{
 #### **Ausführen von Testcases :**
 Die definierten Testcases mit den jeweiligen erwarteten Ergebnissen finden sich [hier](#verwendete-testcases). Um die Testcases auszuführen bzw. zwischen ihnen und der nicht definierten Simulation zu wechseln, benötigt es aktuell etwas aufwand. Dazu müssen in dem Artefakt **Inventory** unter **src/env/tools/Inventory.java** die für das Testcase zuständigen Zeilen auskommentiert bzw. kommentiert werden. 
 
-Testcase 1 :
+Testcases : 
 
-**TODO**
-
-Testcase 2 :
-
-**TODO**
+<img src="images/Inventory_deterministisch.jpg" width=400>
+<img src="images/Inventory_nicht_deterministisch.jpg" width=430>
 
 Standard Simulation :
 
-**TODO**
+Für das aktivieren der **normalen Simulation** muss in dem Artefakt Inventory der Funktionsaufruf **initInventoryByName();** auskommentiert werden und zustätzlich die restlichen Zeilen wieder aktiviert werden.
+
+<img src="images/Standard_Simulation.jpg" width=400>
 
 ## Projekt Teilnehmer
 ***
@@ -137,11 +136,19 @@ Um das Programm bzw. System zu Testen wurden drei verschiedene Testcases erstell
 Wie dieses Testcases ausgeführt werden können ist in [hier](#ausführen-von-testcases) beschrieben.
 Die durchgeführeten Testcases werden nun mit den erwarteten Ergebnissen anfolgend aufgelistet.
 
-Testcase 1:
+Testcase 1: Deterministisch
 
-<img src="images/testcase1.jpg">
+<img src="images/Testcase_deterministisch.jpg" width=600>
 
-**TODO** Restliche Testcases noch hinzufügen!!!!
+<img src="images/Ergebnis_deterministisch.jpg" width=350>
+
+Testcase 2: Nicht Deterministisch
+
+<img src="images/Testcase_nicht_deterministisch.jpg" width=600>
+
+Für den ersten Testcase wurde ein Fall betrachtet bei dem immer dasselbe Ergebnis erreicht wird und es somit deterministisch ist.
+
+Für den zweiten Testcase wurde ein eher realistischerer Fall betrachtet in dem die zur Auktion gestellten Gegenstände nicht perfekt mit den Demands der Agenten übereinstimmen. Daher ist der Testcase, aufgrund nicht beeinflussbarer Faktoren wie Threadgeschwindigkeit oder zuteilung von Rechenzeit zu einem Thread bzw. Agenten und somit einer ungleichmäßigen Reihenfolge in der AuctionQueue und Gebotsgeschwindigkeit, nicht Deterministisch. Dadurch sind die Ergebnisse bei jedem ausführen des Testcases unterschiedlich da nicht immer die gleichen Agenten als erstes in die Queue eintreten und auch nicht immer als erstes bieten. 
 
 
 
