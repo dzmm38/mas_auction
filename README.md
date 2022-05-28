@@ -91,8 +91,8 @@ Die definierten Testcases mit den jeweiligen erwarteten Ergebnissen finden sich 
 
 Testcases : 
 
-<img src="images/Inventory_deterministisch.jpg" width=400>
-<img src="images/Inventory_nicht_deterministisch.jpg" width=430>
+<img src="images/Inventory_deterministisch.jpg" width=380>
+<img src="images/Inventory_nicht_deterministisch.jpg" width=410>
 
 Standard Simulation :
 
@@ -122,12 +122,21 @@ Die Teilnehmer wurde in zwei Gruppen (Auctioneer & Participant) aufgeteilt und h
 ***
 **Funktionsweise :**
 
-Eine Detaillierte Dokumentation bzw. Beschreibungen sind als Kommentare im Code selbst vorhanden. Pläne und Beliefs werden dort in ihrem Zweck erläutert etc.
+Eine Dokumentation bzw. Beschreibungen der Funktionen findet sich in der Powerpoint Präsentation die in dem Repository hinterlegt ist.
 
 **Hapiness Funktion :**
 
 Die Hapiness Funktion definiert wie der Teilnehmer sein Inventar bewertet & wie zufrieden bzw. glücklich dieser damit ist. Dabei haben die verschiedenen Gegenstände und Geld eine Unterschiedliche gewichtung für die Teilnehmer.
 Die Berechnung der "Hapiness" wurde dabei mit folgender Funktion berechnet:
+
+* v = value
+* inv = inventory
+* d = demand
+
+**Happiness(ov) =  v<sub>i</sub> * min(inv/d<sub>i</sub>) + v<sub>i</sub> * min(inv/d<sub>i</sub>)**
+
+Neben der Happiness durch das erfüllen der Demands und besitzen von Gegenständen (die ggf. nicht den Demands zugeordnet sind) wird auch das Geld anschließend zu der Happiness dazu addiert und mit **(money/2)** gewichtet.
+
 **TODO**
 
 ***
