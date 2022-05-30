@@ -133,11 +133,9 @@ Die Berechnung der "Hapiness" wurde dabei mit folgender Funktion berechnet:
 * inv = inventory
 * d = demand
 
-**Happiness(ov) =  v<sub>i</sub> * min(inv/d<sub>i</sub>) + v<sub>i</sub> * min(inv/d<sub>i</sub>)**
+**Happiness(ov) =  v<sub>i</sub> * min(inv/d<sub>i</sub>)**
 
 Neben der Happiness durch das erfüllen der Demands und besitzen von Gegenständen (die ggf. nicht den Demands zugeordnet sind) wird auch das Geld anschließend zu der Happiness dazu addiert und mit **(money/2)** gewichtet.
-
-**TODO**
 
 ***
 #### **Verwendete Testcases :**
