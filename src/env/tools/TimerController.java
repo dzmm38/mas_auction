@@ -12,7 +12,7 @@ public class TimerController extends Artifact{
 	
 	void init(){
 		defineObsProperty("isDone", false);
-		voteTime = 10;
+		voteTime = 5;
 		startTimer();
 	}
 	
