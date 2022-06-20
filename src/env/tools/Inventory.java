@@ -11,8 +11,8 @@ public class Inventory extends Artifact {
 	void init() {
 		initInventoryByName();
 		
-		// defineObsProperty("Geld", 40);
-
+//		defineObsProperty("Geld", 10);
+//
 //		defineObsProperty("Bier", random());
 //		defineObsProperty("Brot", random());
 //		defineObsProperty("Käse", random());
@@ -22,7 +22,7 @@ public class Inventory extends Artifact {
 //		defineObsProperty("DBrot", random());
 //		defineObsProperty("DKäse", random());
 //		defineObsProperty("DWurst", random());
-
+//
 //		defineObsProperty("VBier", random10());
 //		defineObsProperty("VBrot", random10());
 //		defineObsProperty("VKäse", random10());
@@ -131,32 +131,60 @@ public class Inventory extends Artifact {
 			// ***********************************************
 			// Undersupply
 			// ***********************************************
-		case "klaus":
-			defineObsProperty("Geld", 10);
-			defineObsProperties("inventory", 5, 1, 0, 1);
-			defineObsProperties("demand", 1, 4, 0, 3);
-			defineObsProperties("value", 2, 4, 0, 2);
-			break;
-		case "bob":
-			defineObsProperty("Geld", 10);
-			defineObsProperties("inventory", 0, 2, 0, 1);
-			defineObsProperties("demand", 3, 1, 0, 1);
-			defineObsProperties("value", 6, 2, 0, 1);
-			break;
-		case "max":
-			defineObsProperty("Geld", 10);
-			defineObsProperties("inventory", 0, 1, 1, 0);
-			defineObsProperties("demand", 2, 2, 2, 2);
-			defineObsProperties("value", 5, 1, 1, 4);
-			break;
-		case "alice":
-			defineObsProperty("Geld", 10);
-			defineObsProperties("inventory", 0, 1, 1, 2);
-			defineObsProperties("demand", 1, 2, 1, 0);
-			defineObsProperties("value", 1, 3, 2, 0);
-			break;
-		}
+//		case "klaus":
+//			defineObsProperty("Geld", 10);
+//			defineObsProperties("inventory", 5, 1, 0, 1);
+//			defineObsProperties("demand", 1, 4, 0, 3);
+//			defineObsProperties("value", 2, 4, 0, 2);
+//			break;
+//		case "bob":
+//			defineObsProperty("Geld", 10);
+//			defineObsProperties("inventory", 0, 2, 0, 1);
+//			defineObsProperties("demand", 3, 1, 0, 1);
+//			defineObsProperties("value", 6, 2, 0, 1);
+//			break;
+//		case "max":
+//			defineObsProperty("Geld", 10);
+//			defineObsProperties("inventory", 0, 1, 1, 0);
+//			defineObsProperties("demand", 2, 2, 2, 2);
+//			defineObsProperties("value", 5, 1, 1, 4);
+//			break;
+//		case "alice":
+//			defineObsProperty("Geld", 10);
+//			defineObsProperties("inventory", 0, 1, 1, 2);
+//			defineObsProperties("demand", 1, 2, 1, 0);
+//			defineObsProperties("value", 1, 3, 2, 0);
+//			break;
 		
+		// ***********************************************
+		// Exact Supply
+		// ***********************************************
+		case "klaus":
+		defineObsProperty("Geld", 20);
+		defineObsProperties("inventory", 0, 0, 6, 0);
+		defineObsProperties("demand", 0, 1, 1, 2);
+		defineObsProperties("value", 0, 2, 3, 4);
+		break;
+	case "bob":
+		defineObsProperty("Geld", 20);
+		defineObsProperties("inventory", 3, 3, 0, 2);
+		defineObsProperties("demand", 0, 1, 3, 0);
+		defineObsProperties("value", 1, 2, 5, 3);
+		break;
+	case "max":
+		defineObsProperty("Geld", 20);
+		defineObsProperties("inventory", 0, 0, 0, 1);
+		defineObsProperties("demand", 2, 0, 0, 4);
+		defineObsProperties("value", 3, 0, 0, 5);
+		break;
+	case "alice":
+		defineObsProperty("Geld", 20);
+		defineObsProperties("inventory", 0, 1, 0, 4);
+		defineObsProperties("demand", 1, 2, 2, 1);
+		defineObsProperties("value", 4, 6, 5, 2);
+		break;
+		
+		}
 	}
 
 	void defineObsProperties(String mode, int brot, int käse, int bier, int wurst) {

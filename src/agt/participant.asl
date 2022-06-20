@@ -66,7 +66,7 @@ is_more_than(R)
 
 +running_auction(true) : true <- 	.print("OK").
 
-+auction(Item,Type) : seller(false) <- !bid(Item, Type).
++auction(Item,Type) : seller(false) <- 	!bid(Item, Type).
 
 /*
 -auction(Item,Type) <- !request_auction("Bier","Vikery").
@@ -80,9 +80,13 @@ is_more_than(R)
 								+highestBid(Value, CurrentItem, Ag) <- !keepBidding(Value, CurrentItem, Ag).							
 								
 +result(WinAg,WinValue,Item): seller(true) <- 	!calculateSeller(WinAg, WinValue, Item);
+												happiness(Result)
+												.print(Result);
 												-result(_,_,_)[source(_)].
 												
-+result(WinAg,WinValue,Item): seller(false) <- -result(_,_,_)[source(_)].										
++result(WinAg,WinValue,Item): seller(false) <- 	happiness(Result)
+												.print(Result);
+												-result(_,_,_)[source(_)].										
 
 
 +auctionWinner(Agent,WinValue,Item): true <- !calculateBuyer(Agent, WinValue, Item);
@@ -140,10 +144,14 @@ is_more_than(R)
 
 +!enterQueue: .my_name(Name) <- doWeHaveItemsToSell(ItemsToSell)
 								if(ItemsToSell){
-									.print("Ich gehe in die Queue...................", ItemsToSell)
+									/*
+									 * .print("Ich gehe in die Queue...................", ItemsToSell)
+									 */
 									enter(Name)
 								}else{
+									/*
 									.print("Skipping q, nothing to sell ", ItemsToSell )
+									*/
 								}
 								.
 

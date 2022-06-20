@@ -10,7 +10,7 @@ emptyQueue(0).
 
 +request(Item,Type)[source(Ag)] : true <- 	-request(Item,Type)[source(Ag)]
 											if(Item == "nix"){
-											.print("Item ist nicht vorhanden !!!!!!!: ", Item)
+											//.print("Item ist nicht vorhanden !!!!!!!: ", Item)
 											!askParticipant
 											}else{
 											!check_auction(Item,Type,Ag);

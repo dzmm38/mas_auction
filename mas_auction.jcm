@@ -14,7 +14,7 @@
 
 mas mas_auction {
 
-    agent auctioneer : auctioneer.asl{
+	agent auctioneer : auctioneer.asl{
     	join : auctionTable
     	focus: auctionTable.queue
     }

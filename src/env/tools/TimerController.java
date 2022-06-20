@@ -12,12 +12,12 @@ public class TimerController extends Artifact{
 	
 	void init(){
 		defineObsProperty("isDone", false);
-		voteTime = 5;
+		voteTime = 2;
 		startTimer();
 	}
 	
 	void startTimer() {
-		System.out.println("(Re)Starting Timer ...");
+		//System.out.println("(Re)Starting Timer ...");
 		
 		Timer timer = new Timer(voteTime);
 		future = CompletableFuture.supplyAsync(timer::goTime);
